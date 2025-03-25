@@ -15,7 +15,7 @@ document.getElementById('inquiry-form').addEventListener('submit', function(even
     
     console.log('Submitting form data:', formData);
     
-    fetch('https://script.google.com/macros/s/AKfycby5MjR7qKQ2SdUNpGO_CMHORd6cRMNOsgoRDV7ivi-5TpCw9EEYBIBlcXz71NqJliLXqg/exec', {
+    fetch('https://script.google.com/macros/s/AKfycbwrxPzew25M-5bnMeSf8l0TLN-xpogxl8PX8kp1PmBf0Du2qWCwiS2H82ToBjc8HknPig/exec', {
         method: 'POST',
         body: JSON.stringify(formData),
         headers: {
