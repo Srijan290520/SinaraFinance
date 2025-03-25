@@ -90,3 +90,13 @@ learnMoreForm.addEventListener('submit', (event) => {
     learnMoreModal.classList.add('hidden');
     learnMoreForm.reset(); // Reset the form fields
 });
+
+document.addEvent	DefaultListener('DOMContentLoaded', () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const status = urlParams.get('status');
+    if (status === 'success') {
+      alert('Form submitted successfully!');
+    } else if (status === 'error') {
+      alert('Error submitting form. Please try again.');
+    }
+  });
