@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Sinara Finance</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="admin.css">
+</head>
+<body class="bg-gray-950 text-white font-inter">
+    <header class="bg-gray-900 py-4 px-6">
+        <div class="container mx-auto flex justify-between items-center">
+            <a href="#" class="text-xl font-semibold text-white">Sinara Finance Admin</a>
+        </div>
+    </header>
+
+    <section class="py-16 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="text-3xl sm:text-4xl font-semibold text-center mb-12 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-400">
+                Submitted Queries
+            </h2>
+            <div class="overflow-x-auto">
+                <table class="min-w-full bg-gray-800 rounded-lg">
+                    <thead>
+                        <tr>
+                            <th class="py-2 px-4 border-b border-gray-700">Name</th>
+                            <th class="py-2 px-4 border-b border-gray-700">Phone Number</th>
+                            <th class="py-2 px-4 border-b border-gray-700">Email</th>
+                            <th class="py-2 px-4 border-b border-gray-700">Query</th>
+                        </tr>
+                    </thead>
+                    <tbody id="submissions-table-body">
+                        <!-- Data will be populated here by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <script src="admin.js"></script>
+</body>
+</html>
