@@ -11,8 +11,6 @@ const learnMoreModal = document.getElementById('learn-more-modal');
 const closeModalBtn = document.getElementById('close-modal-btn');
 const learnMoreForm = document.getElementById('learn-more-form');
 
-learnMoreModal.classList.add('hidden'); // Ensure the modal is hidden when the webpage is first opened
-
 function toggleMobileMenu() {
     mobileMenu.classList.toggle("hidden");
 }
@@ -49,15 +47,6 @@ function updateActiveNavLink() {
 
 window.addEventListener('scroll', updateActiveNavLink);
 
-const getStartedButtons = document.querySelectorAll('a[href="#get-started"]');
-
-getStartedButtons.forEach(button => {
-    button.addEventListener('click', (event) => {
-        event.preventDefault();
-        alert('Get Started button clicked! You can add your smooth scrolling or modal logic here.');
-    });
-});
-
 learnMoreLinks.forEach(link => {
     link.addEventListener('click', (event) => {
         event.preventDefault();
@@ -78,25 +67,25 @@ learnMoreModal.addEventListener('click', (event) => {
 learnMoreForm.addEventListener('submit', (event) => {
     event.preventDefault();
     const formData = {
-        name: event.target.name.value,
-        phone: event.target.phone.value,
+        fullName: event.target.name.value,
+        phoneNumber: event.target.phone.value,
         email: event.target.email.value,
         query: event.target.query.value
     };
-    let submissions = JSON.parse(localStorage.getItem('submissions')) || [];
-    submissions.push(formData);
-    localStorage.setItem('submissions', JSON.stringify(submissions));
-    alert('Form submitted! Your query has been recorded.');
-    learnMoreModal.classList.add('hidden');
-    learnMoreForm.reset(); // Reset the form fields
-});
 
-document.addEvent	DefaultListener('DOMContentLoaded', () => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const status = urlParams.get('status');
-    if (status === 'success') {
-      alert('Form submitted successfully!');
-    } else if (status === 'error') {
-      alert('Error submitting form. Please try again.');
-    }
-  });
+    fetch('https://script.google.com/macros/s/AKfycbwrxPzew25M-5bnMeSf8l0TLN-xpogxl8PX8kp1PmBf0Du2qWCwiS2H82ToBjc8HknPig/exec', {
+        method: 'POST',
+        body: JSON.stringify(formData),
+        headers: { 'Content-Type': 'application/json' },
+        mode: 'no-cors'
+    })
+    .then(() => {
+        alert('Form submitted! Your query has been recorded.');
+        learnMoreModal.classList.add('hidden');
+        learnMoreForm.reset();
+    })
+    .catch(error => {
+        console.error('Fetch error:', error);
+        alert('There was an error submitting your query. Please try again.');
+    });
+});
