@@ -1,35 +1,50 @@
 document.getElementById('inquiry-form').addEventListener('submit', function(event) {
-    event.preventDefault();
-  
-    const fullName = document.getElementById('full_name').value;
-    const phoneNumber = document.getElementById('phone_number').value;
-    const email = document.getElementById('email').value;
-    const query = document.getElementById('query').value;
-  
-    const formData = { fullName, phoneNumber, email, query };
-  
-    fetch('https://script.google.com/macros/s/AKfycby-vqLs4CrBWK1J6QrBtUlLCe-UWGpqLTFugJKJ5yWMxUPBYfmfAptB_GxbLks0eSbYgA/exec', {
+  event.preventDefault();
+
+  const fullName = document.getElementById('full_name').value;
+  const phoneNumber = document.getElementById('phone_number').value;
+  const email = document.getElementById('email').value;
+  const query = document.getElementById('query').value;
+
+  const formData = {
+      fullName: fullName,  // corrected variable name to match HTML form
+      phoneNumber: phoneNumber, // corrected variable name to match HTML form
+      email: email,
+      query: query
+  };
+
+  console.log('Submitting form data:', formData);
+
+  fetch('https://script.google.com/macros/s/AKfycbwIqm7w22K2bSOnGTaa1T3MbopIzBvnNPh31ES8TysSXFIYVBIeqgOk_uhmiLAkw_H4UQ/exec', {
       method: 'POST',
       body: JSON.stringify(formData),
       headers: {
-        'Content-Type': 'application/json'
+          'Content-Type': 'application/json'
       }
-    })
-    .then(response => {
-      if (!response.ok) throw new Error('Network response was not ok');
+  })
+  .then(response => {
+      console.log('Response:', response);
+      if (!response.ok) {
+          throw new Error('Network response was not ok ' + response.statusText);
+      }
       return response.json();
-    })
-    .then(data => {
+  })
+  .then(data => {
+      console.log('Response data:', data);
       if (data.result === 'success') {
-        const popup = document.getElementById('thank-you-popup');
-        popup.classList.remove('hidden');
-        setTimeout(() => { window.location.href = 'index.html'; }, 5000);
+          const popup = document.getElementById('thank-you-popup');
+          popup.classList.remove('hidden');
+
+          setTimeout(() => {
+              window.location.href = 'index.html'; // Redirect to index.html after showing popup
+          }, 5000);
       } else {
-        alert('Error submitting query. Please try again.');
+          console.error('Error in response data:', data);
+          alert('There was an error submitting your query. Please try again.');
       }
-    })
-    .catch(error => {
+  })
+  .catch(error => {
       console.error('Fetch error:', error);
-      alert('Error submitting query. Please try again.');
-    });
+      alert('There was an error submitting your query. Please try again.');
   });
+});
