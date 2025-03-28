@@ -1,0 +1,71 @@
+/* Custom styles for the admin page */
+
+/* Body styles */
+body {
+    background-color: #0f172a;
+    color: #f8fafc;
+    font-family: 'Inter', sans-serif;
+}
+
+/* Header styles */
+header {
+    background-color: #1e293b;
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid #4b5563;
+}
+header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+header a {
+    color: #ffffff;
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+/* Section styles */
+section {
+    padding: 2rem 1.5rem;
+}
+section h2 {
+    font-size: 2rem;
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: 1.5rem;
+    background: linear-gradient(to right, #60a5fa, #8b5cf6);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+/* Table styles */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #1e293b;
+    border-radius: 0.5rem;
+    overflow: hidden;
+}
+table th, table td {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid #4b5563;
+    text-align: left;
+}
+table th {
+    background-color: #374151;
+    color: #d1d5db;
+    font-weight: 600;
+}
+table td {
+    color: #f8fafc;
+}
+table tr:last-child td {
+    border-bottom: none;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+    table th, table td {
+        padding: 0.5rem 0.75rem;
+    }
+}
