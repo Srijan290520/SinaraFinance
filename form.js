@@ -64,7 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log("Form Data:", formData); // For debugging
 
         // Replace with your actual Google Apps Script Web App URL
-        const scriptURL = 'https://script.google.com/macros/s/AKfycbxdsx-PGWl_EQRrHVwQvmiv7p-elp5yCp2vZpElLz5_Gyeuc8Yj91XP2CBggGrN6ACw1Q/exec'; // MAKE SURE THIS IS CORRECT
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbzlsW-foqa4JLMPZOuZQ7296w5RMUzfc_ZKsEV076WNJEexdtaYD3x5Be05H0jvGykGaA/exec'; // MAKE SURE THIS IS CORRECT
 
         fetch(scriptURL, {
             method: 'POST',
