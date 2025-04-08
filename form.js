@@ -1,27 +1,36 @@
 document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('contact-form');
-    const userTypeRadios = form.querySelectorAll('input[name="user_type"]');
+    const userTypeRadios = form?.querySelectorAll('input[name="user_type"]'); // Added safety checks
     const agentFieldsContainer = document.getElementById('agent-fields');
     const buyerFieldsContainer = document.getElementById('buyer-fields');
-    const submitButton = form.querySelector('input[type="submit"]');
+    const submitButton = form?.querySelector('input[type="submit"]'); // Added safety check
+    const thankYouPopup = document.getElementById('thank-you-popup'); // Get popup element
+
+    // Ensure form and essential elements exist before proceeding
+    if (!form || !userTypeRadios || !submitButton || !agentFieldsContainer || !buyerFieldsContainer || !thankYouPopup) {
+        console.error("Form initialization failed: One or more required elements not found.");
+        // Optionally disable the form or show an error message to the user here
+        if(submitButton) submitButton.disabled = true;
+        if(form) form.innerHTML = "<p class='text-red-400 text-center'>Error initializing form. Please contact support.</p>"; // Example user feedback
+        return; // Stop script execution if essential elements are missing
+    }
+
 
     function toggleConditionalFields() {
         const selectedType = form.querySelector('input[name="user_type"]:checked')?.value;
 
-        // Hide all conditional sections first
-        agentFieldsContainer?.classList.remove('visible');
-        buyerFieldsContainer?.classList.remove('visible');
-        agentFieldsContainer?.classList.add('hidden'); // Use hidden if not transitioning
-        buyerFieldsContainer?.classList.add('hidden'); // Use hidden if not transitioning
+        // Use Tailwind classes for hiding/showing for simplicity if CSS transitions aren't needed
+        agentFieldsContainer.classList.add('hidden');
+        buyerFieldsContainer.classList.add('hidden');
+        // agentFieldsContainer.classList.remove('visible'); // Remove if using CSS class based visibility
+        // buyerFieldsContainer.classList.remove('visible');
 
-
-        // Show the relevant section
         if (selectedType === 'agent') {
-            agentFieldsContainer?.classList.add('visible');
-            agentFieldsContainer?.classList.remove('hidden');
+            agentFieldsContainer.classList.remove('hidden');
+            // agentFieldsContainer.classList.add('visible');
         } else if (selectedType === 'buyer_seller') {
-            buyerFieldsContainer?.classList.add('visible');
-            buyerFieldsContainer?.classList.remove('hidden');
+            buyerFieldsContainer.classList.remove('hidden');
+            // buyerFieldsContainer.classList.add('visible');
         }
     }
 
@@ -30,72 +39,116 @@ document.addEventListener('DOMContentLoaded', () => {
         radio.addEventListener('change', toggleConditionalFields);
     });
 
-    // Initial check in case a radio is pre-selected or for browser back navigation
+    // Initial check
     toggleConditionalFields();
 
     // Form Submission Logic
     form.addEventListener('submit', function(event) {
-        event.preventDefault();
-
-        if(!submitButton) return;
+        event.preventDefault(); // Prevent default page reload
 
         const originalButtonText = submitButton.value;
         submitButton.value = 'Submitting...';
         submitButton.disabled = true;
 
-        // Collect Common Data
+        // Collect Form Data Safely
         const formData = {
-            userType: form.querySelector('input[name="user_type"]:checked')?.value,
-            fullName: document.getElementById('full_name')?.value,
-            email: document.getElementById('email')?.value,
-            phone: document.getElementById('phone')?.value, // Optional common field
+            userType: form.querySelector('input[name="user_type"]:checked')?.value || 'N/A', // Default if somehow unchecked
+            fullName: document.getElementById('full_name')?.value || '',
+            email: document.getElementById('email')?.value || '',
+            phone: document.getElementById('phone')?.value || '', // Optional common field
+            // Conditional Fields
+            interest: document.getElementById('interest')?.value || '',
+            location: document.getElementById('location')?.value || '',
+            buyerDetails: document.getElementById('buyer_details')?.value || '',
+            brokerage: document.getElementById('brokerage')?.value || '',
+            agentNeeds: document.getElementById('agent_needs')?.value || '',
         };
 
-        // Collect Conditional Data
-        if (formData.userType === 'agent') {
-            formData.brokerage = document.getElementById('brokerage')?.value;
-            formData.agentNeeds = document.getElementById('agent_needs')?.value;
-        } else if (formData.userType === 'buyer_seller') {
-            formData.interest = document.getElementById('interest')?.value;
-            formData.location = document.getElementById('location')?.value;
-            formData.buyerDetails = document.getElementById('buyer_details')?.value;
+        // Filter out empty conditional fields that weren't relevant based on userType
+        // This isn't strictly necessary if the Apps Script handles empty strings, but can make payload cleaner
+        if (formData.userType !== 'buyer_seller') {
+            delete formData.interest;
+            delete formData.location;
+            delete formData.buyerDetails;
+        }
+        if (formData.userType !== 'agent') {
+            delete formData.brokerage;
+            delete formData.agentNeeds;
         }
 
-        console.log("Form Data:", formData); // For debugging
 
-        // Replace with your actual Google Apps Script Web App URL
-        const scriptURL = 'https://script.google.com/macros/s/AKfycbzlsW-foqa4JLMPZOuZQ7296w5RMUzfc_ZKsEV076WNJEexdtaYD3x5Be05H0jvGykGaA/exec'; // MAKE SURE THIS IS CORRECT
+        console.log("Attempting to send data:", JSON.stringify(formData)); // Log data being sent
 
+        // ==================================================================
+        // The Web App URL provided by the user is inserted here
+        // ==================================================================
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbxz57tW7ek7yrWIGsqIZriv4Idl007-JMrCsio8uT2PlEjQD9brBnfij6LZhOhDn1WxqA/exec';
+        // ==================================================================
+
+
+        // --- Fetch Call ---
+        // Ensure 'mode: no-cors' is ABSENT
         fetch(scriptURL, {
             method: 'POST',
-            mode: 'no-cors',
-            cache: 'no-cache',
+            // NO 'mode: no-cors' HERE!
+            cache: 'no-cache', // Helps avoid potential caching issues
             headers: {
                 'Content-Type': 'application/json'
+                // Do not add 'Access-Control-Allow-Origin' header here - that's for the server response
             },
-            body: JSON.stringify(formData)
+            body: JSON.stringify(formData) // Send the collected data as a JSON string
         })
         .then(response => {
-            console.log('Success!', response);
-            const popup = document.getElementById('thank-you-popup');
-            if (popup) popup.classList.remove('hidden');
-            form.reset(); // Reset the form
-            toggleConditionalFields(); // Hide conditional fields after reset
+             // Check if response status is OK (2xx range)
+             // Note: Response object might be opaque if CORS headers weren't perfect,
+             // but we mainly care if the request itself didn't throw a network error.
+             // We rely more on the JSON *body* of the response from Apps Script.
+            console.log('Fetch response received (status might be opaque):', response);
+            // Try to parse the JSON response from the Apps Script
+            return response.json(); // This will fail if the response wasn't valid JSON
+        })
+        .then(data => {
+            // Process the JSON data returned from Apps Script
+            console.log('Success Response from Apps Script:', data);
+            if (data.result === "success") {
+                thankYouPopup.classList.remove('hidden'); // Show popup
+                form.reset(); // Reset the form fields
+                toggleConditionalFields(); // Hide conditional fields again
 
-            setTimeout(() => {
-                // Optional: Redirect or just hide popup
-                 if (popup) popup.classList.add('hidden');
-                // window.location.href = 'index.html';
-            }, 5000);
+                // Hide popup after delay (optional: redirect instead)
+                setTimeout(() => {
+                    thankYouPopup.classList.add('hidden');
+                    // window.location.href = 'index.html'; // Optional redirect
+                }, 5000);
+            } else {
+                 // Handle application-level errors reported by Apps Script
+                 console.error('Apps Script Error:', data.error || 'Unknown error from script.');
+                 alert('Submission failed: ' + (data.error || 'Please check your details and try again.'));
+            }
         })
         .catch(error => {
-            console.error('Error!', error.message);
-            alert('There was an error submitting your inquiry. Please try again or contact us directly.');
+            // Handle network errors or issues with the fetch request itself
+            console.error('Fetch Error:', error);
+            // More specific error check for TypeError which might occur if response.json() fails
+             if (error instanceof TypeError) {
+                console.error("TypeError during response processing. The Apps Script might not have returned valid JSON or CORS headers might be missing/incorrect.");
+                alert('There was an issue processing the server response. Please try again later or contact support.');
+            } else {
+                alert('There was a network problem submitting your inquiry. Please check your connection and try again.');
+            }
         })
         .finally(() => {
-             // Re-enable button regardless of success or error
-             submitButton.value = originalButtonText;
-             submitButton.disabled = false;
+             // This block executes regardless of success or failure
+             submitButton.value = originalButtonText; // Restore button text
+             submitButton.disabled = false; // Re-enable button
+             console.log("Form submission process finished.");
         });
+        // --- End Fetch Call ---
     });
-});
+
+    // Add script for footer year (moved from form.html for better practice)
+    const yearSpan = document.getElementById('year');
+    if (yearSpan) {
+        yearSpan.textContent = new Date().getFullYear();
+    }
+}); // End DOMContentLoaded listener
