@@ -108,7 +108,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // ==================================================================
         // !! IMPORTANT !! Replace with your NEWEST deployed Web App URL
         // ==================================================================
-        const scriptURL = 'https://script.google.com/macros/s/AKfycbzj-fr4Baza_LZC6K61Zg2Adyu0Ou4x_YPeUlaceWDgO6nnTeCr7mDmPOULFsaHcT5H/exec'; // <-- PASTE YOUR URL HERE
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbyp6GF2VE-_TXn_FJa7hPawGuYxmCjd_gN6PDa8wcoQwlCNnnaiOyLwzccmWXKXknvq/exec'; // <-- PASTE YOUR URL HERE
         // ==================================================================
 
         if (scriptURL === 'YOUR_NEW_WEB_APP_URL_HERE' || !scriptURL) {
