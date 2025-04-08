@@ -3,6 +3,7 @@
 /* Header styles */
 .header {
     background-image: linear-gradient(to bottom, #111827, #4c1d95, #000000);
+    height: 100px; /* Increased height */
 }
 .header h1 {
     background: linear-gradient(to right, #60a5fa, #8b5cf6);
@@ -38,24 +39,32 @@ section:last-child {
 
 /* Hero section styles */
 .hero {
-    padding-top: 12rem; /* Reduced padding-top */
-    padding-bottom: 16rem; /* Reduced padding-bottom */
+    padding-top: 10rem; /* Adjusted padding */
+    padding-bottom: 12rem; /* Adjusted padding */
 }
 @media (max-width: 768px) {
     .hero {
-        padding-top: 8rem;
-        padding-bottom: 8rem;
+        padding-top: 7rem;
+        padding-bottom: 7rem;
     }
 }
 
 /* Navigation link styles */
 .nav-link {
     color: #d1d5db;
-    transition-colors: color 0.3s ease;
+    transition: color 0.3s ease;
 }
 .nav-link:hover {
     color: #ffffff;
 }
+/* Active nav link style */
+.nav-link.active {
+    color: #ffffff;
+    font-weight: 600;
+    border-bottom: 2px solid #8b5cf6;
+    padding-bottom: 2px;
+}
+
 
 /* CTA button styles */
 .cta-button {
@@ -65,23 +74,30 @@ section:last-child {
     border-radius: 9999px;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
+    font-weight: 600; /* Added font weight */
+    text-align: center; /* Ensure text centers */
 }
 .cta-button:hover {
     background-image: linear-gradient(to right, #2563eb, #6d28d9);
     transform: translateY(-2px);
+    box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.15); /* Enhanced shadow */
 }
 
-.secondary-cta-button {
-    background-image: linear-gradient(to right, #10b981, #06b6d4);
+/* Secondary CTA button specific for Agents */
+.agent-cta-button {
+    background-image: linear-gradient(to right, #10b981, #06b6d4); /* Teal/Cyan Gradient */
     color: #ffffff;
     padding: 0.75rem 1.5rem;
     border-radius: 9999px;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
+    font-weight: 600; /* Added font weight */
+    text-align: center; /* Ensure text centers */
 }
-.secondary-cta-button:hover {
+.agent-cta-button:hover {
     background-image: linear-gradient(to right, #059669, #0891b2);
     transform: translateY(-2px);
+    box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.15); /* Enhanced shadow */
 }
 
 /* Service card styles */
@@ -92,47 +108,114 @@ section:last-child {
     box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.1);
     border: 1px solid #4b5563;
     transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
 }
 .service-card:hover {
     transform: translateY(-4px) scale(1.02);
     border-color: #6b7280;
 }
 .service-icon {
-    width: 4rem;
-    height: 4rem;
+    width: 3.5rem; /* Slightly smaller icons */
+    height: 3.5rem;
     margin-bottom: 1rem;
 }
-.learn-more-link {
-    color: #60a5fa;
-    transition-colors: color 0.3s ease;
+.service-card-title { /* Added specific class for title */
+    font-size: 1.125rem; /* text-lg */
+    font-weight: 600; /* font-semibold */
+    margin-bottom: 0.5rem; /* mb-2 */
+    color: #ffffff; /* text-white */
 }
-.learn-more-link:hover {
-    color: #8b5cf6;
+.service-card-description { /* Added specific class for description */
+    color: #9ca3af; /* text-gray-400 */
+    margin-bottom: 1rem; /* mb-4 */
+    flex-grow: 1; /* Allow description to take space */
+}
+.service-card-link { /* Added specific class for link */
+    color: #60a5fa; /* text-blue-400 equivalent */
+    transition: color 0.3s ease;
+    margin-top: auto; /* Pushes link to bottom */
+    display: inline-flex;
+    align-items: center;
+    font-weight: 500; /* Medium weight */
+}
+.service-card-link:hover {
+    color: #8b5cf6; /* text-purple-400 equivalent */
 }
 
-/* Resource link styles */
+/* How It Works styles */
+.step-number {
+    background-image: linear-gradient(to right, #3b82f6, #8b5cf6); /* Use primary gradient */
+    border-radius: 9999px; /* full */
+    width: 3rem; /* w-12 */
+    height: 3rem; /* h-12 */
+    display: inline-flex; /* flex */
+    align-items: center; /* items-center */
+    justify-content: center; /* justify-center */
+    font-size: 1.25rem; /* text-xl */
+    font-weight: 700; /* font-bold */
+    color: #ffffff; /* text-white */
+    margin-bottom: 1rem; /* mb-4 */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* shadow-lg */
+}
+
+
+/* Testimonial card styles */
+.testimonial-card {
+    background-color: #1e293b; /* bg-gray-800 */
+    border-radius: 0.75rem; /* rounded-lg */
+    padding: 1.5rem; /* p-6 */
+    border: 1px solid #4b5563; /* border-gray-700 */
+    display: flex;
+    flex-direction: column;
+    height: 100%; /* Ensure cards in a row have same height */
+}
+.testimonial-quote {
+    color: #d1d5db; /* text-gray-300 */
+    margin-bottom: 1rem; /* mb-4 */
+    font-style: italic;
+    flex-grow: 1;
+}
+.testimonial-author {
+    font-weight: 600; /* font-semibold */
+    color: #ffffff; /* text-white */
+    margin-top: auto;
+}
+.testimonial-author-role {
+    font-size: 0.875rem; /* text-sm */
+    color: #9ca3af; /* text-gray-400 */
+}
+
+
+/* Resource link styles (Kept for potential future use, not in current HTML) */
 .resource-link {
     color: #d1d5db;
-    transition-colors: color 0.3s ease;
+    transition: color 0.3s ease;
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 0.75rem;
     border-radius: 0.375rem;
     border: 1px solid #4b5563;
+    text-align: center;
 }
 .resource-link:hover {
     background-color: #374151;
+    color: #ffffff;
 }
 
-/* Partner logo styles */
+/* Partner logo styles (Kept for potential future use, used for 'Featured Agents') */
 .partner-logo {
-    height: 3rem;
-    opacity: 0.6;
+    height: 4rem;
+    width: auto;
+    max-width: 150px;
+    opacity: 0.7;
     transition: opacity 0.3s ease;
+    filter: grayscale(50%) brightness(1.5);
 }
 .partner-logo:hover {
     opacity: 1;
+    filter: grayscale(0%) brightness(1);
 }
 
 /* Hover background color */
@@ -140,54 +223,38 @@ section:last-child {
     background-color: #374151;
 }
 
-/* Modal styles */
-#learn-more-modal {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 2rem;
-    background-color: rgba(0, 0, 0, 0.7); /* 70% transparent background */
+/* Styles for the Form Radio Button Choice */
+.user-type-choice label {
+    display: block;
+    padding: 0.75rem 1.25rem;
+    border: 1px solid #4b5563; /* border-gray-600 */
+    border-radius: 0.5rem; /* rounded-md */
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    background-color: #374151; /* bg-gray-700 */
+    text-align: center;
 }
-#learn-more-modal .bg-gray-800 {
-    max-width: 90%;
-    width: 100%;
-    max-width: 500px;
-    margin: 2rem;
-    overflow-y: auto;
-    max-height: 80vh;
+.user-type-choice input[type="radio"] {
+    display: none; /* Hide the actual radio button */
+}
+.user-type-choice input[type="radio"]:checked + label {
+    background-color: #3b82f6; /* bg-blue-600 */
+    border-color: #2563eb; /* border-blue-700 */
+    color: #ffffff;
+    font-weight: 600;
+}
+.user-type-choice label:hover {
+    border-color: #6b7280; /* border-gray-500 */
+    background-color: #4b5563; /* bg-gray-600 */
+}
+.user-type-choice input[type="radio"]:checked + label:hover {
+     background-color: #2563eb; /* Slightly darker blue on hover when checked */
 }
 
-/* Learn More form styles */
-#learn-more-form {
-    background-color: #1e293b;
-    padding: 2rem;
-    border-radius: 0.75rem;
-    box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.1);
-    max-width: 600px;
-    margin: 0 auto;
+/* Styles for conditionally shown form fields */
+.form-field-agent {
+    display: none; /* Hidden by default */
 }
-#learn-more-form label {
-    color: #d1d5db;
-}
-#learn-more-form input,
-#learn-more-form textarea {
-    background-color: #374151;
-    border: 1px solid #4b5563;
-    color: #f8fafc;
-    padding: 0.75rem;
-    border-radius: 0.375rem;
-    width: 100%;
-    margin-bottom: 1rem;
-}
-#learn-more-form button {
-    background-image: linear-gradient(to right, #3b82f6, #8b5cf6);
-    color: #ffffff;
-    padding: 0.75rem 1.5rem;
-    border-radius: 9999px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease;
-}
-#learn-more-form button:hover {
-    background-image: linear-gradient(to right, #2563eb, #6d28d9);
-    transform: translateY(-2px);
+.form-field-buyer {
+    display: none; /* Hidden by default */
 }

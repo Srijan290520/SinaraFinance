@@ -1,67 +1,111 @@
+/* Using Tailwind classes in form.html, this file might become less necessary */
+/* Retaining basic structure and potentially specific form styles */
+
 body {
     font-family: 'Inter', sans-serif;
-    background-color: #1a202c;
-    color: #edf2f7;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    margin: 0;
+    /* Background and text color handled by Tailwind */
+}
+
+header {
+    /* Handled by Tailwind */
+}
+
+main {
+    flex-grow: 1;
+    display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
-    margin: 0;
+    /* Padding handled by Tailwind */
 }
 
 h1 {
     text-align: center;
-    margin-bottom: 20px;
-    font-size: 2rem;
-    color: #63b3ed;
+    /* Styles handled by Tailwind */
 }
 
 form {
-    background-color: #2d3748;
-    padding: 40px;
-    border-radius: 16px;    
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     width: 100%;
-    max-width: 500px;
-    margin-top: auto;
-    margin-bottom: auto;
-    margin-left: auto;
-    margin-right: auto;
+    /* Styles handled by Tailwind */
 }
 
 label {
-    display: block;
-    margin-bottom: 8px;
-    font-weight: 600;
+     /* Styles handled by Tailwind */
 }
 
 input[type="text"],
 input[type="email"],
-textarea {
-    width: 100%;
-    padding: 8px;
-    margin-bottom: 24px;
-    border: 1px solid #4a5568;
-    border-radius: 8px;
-    background-color: #1a202c;
-    color: #edf2f7;
-    margin-left: auto;
-    margin-right: auto;
+input[type="tel"], /* Added for phone */
+textarea,
+select { /* Added for select */
+    /* Base styles handled by Tailwind, maybe add specific overrides if needed */
 }
 
 input[type="submit"] {
-    width: 100%;
-    padding: 10px;
     border: none;
-    border-radius: 4px;
-    background-color: #3182ce;
-    color: #edf2f7;
-    font-weight: 600;
+     /* Styles handled by Tailwind */
+}
+
+footer {
+     margin-top: auto;
+      /* Styles handled by Tailwind */
+}
+
+/* Keep specific styles from index.css that were moved here if needed */
+/* Styles for the Form Radio Button Choice */
+.user-type-choice label {
+    display: block;
+    padding: 0.75rem 1.25rem;
+    border: 1px solid #4b5563; /* border-gray-600 */
+    border-radius: 0.5rem; /* rounded-md */
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: all 0.2s ease-in-out;
+    background-color: #374151; /* bg-gray-700 */
+    text-align: center;
+    margin-bottom: 0.5rem; /* Add some space below */
+}
+.user-type-choice input[type="radio"] {
+    position: absolute; /* Hide visually but keep accessible */
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+.user-type-choice input[type="radio"]:checked + label {
+    background-color: #3b82f6; /* bg-blue-600 */
+    border-color: #2563eb; /* border-blue-700 */
+    color: #ffffff;
+    font-weight: 600;
+}
+.user-type-choice label:hover {
+    border-color: #6b7280; /* border-gray-500 */
+    background-color: #4b5563; /* bg-gray-600 */
+}
+.user-type-choice input[type="radio"]:checked + label:hover {
+     background-color: #2563eb; /* Slightly darker blue on hover when checked */
+}
+/* Focus styles for accessibility */
+.user-type-choice input[type="radio"]:focus + label {
+    outline: 2px solid #60a5fa; /* Example focus ring */
+    outline-offset: 2px;
 }
 
-input[type="submit"]:hover {
-    background-color: #2b6cb0;
+
+/* Styles for conditionally shown form fields */
+.form-field-agent,
+.form-field-buyer {
+    display: none; /* Hidden by default */
+    /* Add transition for smoother appearance if desired */
+    /* transition: opacity 0.3s ease-in-out, max-height 0.3s ease-in-out; */
+    /* opacity: 0; */
+    /* max-height: 0; */
+    /* overflow: hidden; */
 }
-
-
+.form-field-agent.visible,
+.form-field-buyer.visible {
+    display: block; /* Show when .visible class is added */
+     /* opacity: 1; */
+     /* max-height: 500px; /* Adjust as needed */
+}
