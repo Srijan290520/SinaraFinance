@@ -3,10 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact Us - Sinara Realty Solutions</title> <!-- Changed Title -->
+    <title>Contact Us - Sinara Realty Solutions</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
+        // Basic Tailwind Config
         tailwind.config = {
           theme: {
             extend: {
@@ -17,119 +19,145 @@
           }
         }
     </script>
-    <link rel="stylesheet" href="index.css"> <!-- Link main CSS for consistency -->
-    <link rel="stylesheet" href="form.css"> <!-- Link form specific CSS -->
-
+    <!-- No external form.css needed for this example -->
+    <style>
+        /* Optional: Add minor base styles if needed */
+        body { background-color: #0f172a; } /* Tailwind bg-slate-900 equivalent */
+    </style>
 </head>
-<body class="bg-gray-950 text-white font-inter flex flex-col min-h-screen">
-    <header class="bg-gray-900 py-4 px-6 sticky top-0 z-10 shadow-md">
+<body class="text-slate-100 font-inter flex flex-col min-h-screen">
+    <!-- Header -->
+    <header class="bg-slate-800 py-4 px-6 sticky top-0 z-10 shadow-md">
         <div class="container mx-auto flex justify-between items-center">
             <a href="index.html" class="text-xl font-semibold text-white">Sinara Realty Solutions</a>
         </div>
     </header>
 
+    <!-- Main Content Area -->
     <main class="flex-grow flex justify-center items-center py-12 sm:py-16 px-4 sm:px-6 lg:px-8">
-        <div class="max-w-xl w-full"> <!-- Slightly wider max-width -->
-            <h1 class="text-3xl font-semibold text-center mb-8 text-blue-400">Get In Touch</h1> <!-- Changed Heading -->
-            <form id="contact-form" class="bg-gray-800 p-6 sm:p-8 rounded-lg shadow-lg space-y-6"> <!-- Increased padding and spacing -->
+        <div class="max-w-xl w-full">
+            <h1 class="text-3xl font-semibold text-center mb-8 text-blue-400">Get In Touch</h1>
+
+            <!-- The Form -->
+            <form id="contact-form" novalidate class="bg-slate-800 p-6 sm:p-8 rounded-lg shadow-lg space-y-6">
 
                 <!-- User Type Selection -->
                 <fieldset class="space-y-3">
-                    <legend class="block mb-3 font-semibold text-gray-300 text-lg">I am a...</legend>
+                    <legend class="block mb-3 font-semibold text-slate-300 text-lg">I am a...</legend>
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <div class="user-type-choice">
-                            <input type="radio" id="type_buyer_seller" name="user_type" value="buyer_seller" required>
-                            <label for="type_buyer_seller">Home Buyer / Seller</label>
+                        <!-- Buyer/Seller Radio -->
+                        <div>
+                            <input type="radio" id="type_buyer_seller" name="user_type" value="buyer_seller" required class="peer sr-only">
+                            <label for="type_buyer_seller"
+                                   class="block text-center cursor-pointer rounded-md border border-slate-600 bg-slate-700 px-4 py-3 text-slate-300 ring-2 ring-transparent transition-all hover:bg-slate-600 peer-checked:border-blue-500 peer-checked:bg-blue-600 peer-checked:text-white peer-checked:ring-blue-500 peer-checked:ring-offset-2 peer-checked:ring-offset-slate-800">
+                                Home Buyer / Seller
+                            </label>
                         </div>
-                        <div class="user-type-choice">
-                            <input type="radio" id="type_agent" name="user_type" value="agent" required>
-                            <label for="type_agent">Real Estate Agent</label>
+                        <!-- Agent Radio -->
+                        <div>
+                            <input type="radio" id="type_agent" name="user_type" value="agent" required class="peer sr-only">
+                            <label for="type_agent"
+                                   class="block text-center cursor-pointer rounded-md border border-slate-600 bg-slate-700 px-4 py-3 text-slate-300 ring-2 ring-transparent transition-all hover:bg-slate-600 peer-checked:border-blue-500 peer-checked:bg-blue-600 peer-checked:text-white peer-checked:ring-blue-500 peer-checked:ring-offset-2 peer-checked:ring-offset-slate-800">
+                                Real Estate Agent
+                            </label>
                         </div>
                     </div>
                 </fieldset>
 
                 <!-- Common Fields -->
                 <div>
-                    <label for="full_name" class="block mb-2 font-semibold text-gray-300">Full Name:</label>
-                    <input type="text" id="full_name" name="full_name" class="w-full p-3 rounded bg-gray-700 border border-gray-600 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 text-white" required>
+                    <label for="full_name" class="block mb-2 font-medium text-slate-300">Full Name:</label>
+                    <input type="text" id="full_name" name="full_name" required
+                           class="w-full rounded-md border border-slate-600 bg-slate-700 p-3 text-slate-100 placeholder-slate-400 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500">
                 </div>
-
                 <div>
-                    <label for="email" class="block mb-2 font-semibold text-gray-300">Email Address:</label>
-                    <input type="email" id="email" name="email" class="w-full p-3 rounded bg-gray-700 border border-gray-600 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 text-white" required>
+                    <label for="email" class="block mb-2 font-medium text-slate-300">Email Address:</label>
+                    <input type="email" id="email" name="email" required
+                           class="w-full rounded-md border border-slate-600 bg-slate-700 p-3 text-slate-100 placeholder-slate-400 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500">
                 </div>
-
                  <div>
-                    <label for="phone" class="block mb-2 font-semibold text-gray-300">Phone Number (Optional):</label>
-                    <input type="tel" id="phone" name="phone" class="w-full p-3 rounded bg-gray-700 border border-gray-600 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 text-white">
+                    <label for="phone" class="block mb-2 font-medium text-slate-300">Phone Number <span class="text-sm text-slate-400">(Optional)</span>:</label>
+                    <input type="tel" id="phone" name="phone"
+                           class="w-full rounded-md border border-slate-600 bg-slate-700 p-3 text-slate-100 placeholder-slate-400 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500">
                 </div>
 
-                <!-- Conditional Fields for Buyer/Seller -->
-                <div id="buyer-fields" class="form-field-buyer space-y-6 hidden">
-                     <div>
-                        <label for="interest" class="block mb-2 font-semibold text-gray-300">I'm Interested In:</label>
-                        <select id="interest" name="interest" class="w-full p-3 rounded bg-gray-700 border border-gray-600 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 text-white">
-                            <option value="">-- Select One --</option>
-                            <option value="buying">Buying a Property</option>
-                            <option value="selling">Selling a Property</option>
-                            <option value="buying_selling">Both Buying and Selling</option>
-                            <option value="information">General Information</option>
-                        </select>
+                <!-- Conditional Fields Container (Wrapper) -->
+                <div class="space-y-6">
+                    <!-- Conditional Buyer/Seller Section -->
+                    <div id="buyer-fields" class="space-y-4 hidden"> <!-- Starts hidden -->
+                         <hr class="border-slate-600">
+                         <h3 class="text-lg font-semibold text-slate-300 pt-2">Buyer/Seller Information:</h3>
+                         <div>
+                            <label for="interest" class="block mb-2 font-medium text-slate-300">I'm Interested In:</label>
+                            <select id="interest" name="interest"
+                                    class="w-full rounded-md border border-slate-600 bg-slate-700 p-3 text-slate-100 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500">
+                                <option value="">-- Select One --</option>
+                                <option value="buying">Buying a Property</option>
+                                <option value="selling">Selling a Property</option>
+                                <option value="buying_selling">Both Buying and Selling</option>
+                                <option value="information">General Information</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="location" class="block mb-2 font-medium text-slate-300">Preferred Location / Area:</label>
+                            <input type="text" id="location" name="location" placeholder="E.g., City, Neighborhood, Zip Code"
+                                   class="w-full rounded-md border border-slate-600 bg-slate-700 p-3 text-slate-100 placeholder-slate-400 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500">
+                        </div>
+                         <div>
+                            <label for="buyer_details" class="block mb-2 font-medium text-slate-300">Additional Details:</label>
+                            <textarea id="buyer_details" name="buyer_details" rows="3" placeholder="Property type, price range, timeline, specific questions..."
+                                      class="w-full rounded-md border border-slate-600 bg-slate-700 p-3 text-slate-100 placeholder-slate-400 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"></textarea>
+                        </div>
+                         <hr class="border-slate-600">
                     </div>
-                    <div>
-                        <label for="location" class="block mb-2 font-semibold text-gray-300">Preferred Location / Area:</label>
-                        <input type="text" id="location" name="location" placeholder="E.g., Downtown Austin, North Suburbs" class="w-full p-3 rounded bg-gray-700 border border-gray-600 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 text-white">
-                    </div>
-                     <div>
-                        <label for="buyer_details" class="block mb-2 font-semibold text-gray-300">Additional Details:</label>
-                        <textarea id="buyer_details" name="buyer_details" rows="3" placeholder="Tell us more about what you're looking for (property type, timeline, etc.)" class="w-full p-3 rounded bg-gray-700 border border-gray-600 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 text-white"></textarea>
-                    </div>
-                </div>
 
-                <!-- Conditional Fields for Agent -->
-                <div id="agent-fields" class="form-field-agent space-y-6 hidden">
-                     <div>
-                        <label for="brokerage" class="block mb-2 font-semibold text-gray-300">Brokerage Name (Optional):</label>
-                        <input type="text" id="brokerage" name="brokerage" class="w-full p-3 rounded bg-gray-700 border border-gray-600 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 text-white">
-                    </div>
-                    <div>
-                        <label for="agent_needs" class="block mb-2 font-semibold text-gray-300">How can we help your business?</label>
-                        <textarea id="agent_needs" name="agent_needs" rows="3" placeholder="E.g., Interested in buyer leads, seller leads, CRM integration, partnership..." class="w-full p-3 rounded bg-gray-700 border border-gray-600 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 text-white"></textarea>
+                    <!-- Conditional Agent Section -->
+                    <div id="agent-fields" class="space-y-4 hidden"> <!-- Starts hidden -->
+                         <hr class="border-slate-600">
+                         <h3 class="text-lg font-semibold text-slate-300 pt-2">Agent Information:</h3>
+                         <div>
+                            <label for="brokerage" class="block mb-2 font-medium text-slate-300">Brokerage Name <span class="text-sm text-slate-400">(Optional)</span>:</label>
+                            <input type="text" id="brokerage" name="brokerage"
+                                   class="w-full rounded-md border border-slate-600 bg-slate-700 p-3 text-slate-100 placeholder-slate-400 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500">
+                        </div>
+                        <div>
+                            <label for="agent_needs" class="block mb-2 font-medium text-slate-300">How can we help your business?</label>
+                            <textarea id="agent_needs" name="agent_needs" rows="3" placeholder="E.g., Buyer leads in [Area], Seller leads, Partnership info..."
+                                      class="w-full rounded-md border border-slate-600 bg-slate-700 p-3 text-slate-100 placeholder-slate-400 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"></textarea>
+                        </div>
+                         <hr class="border-slate-600">
                     </div>
                 </div>
 
                 <!-- Submit Button -->
                 <div>
-                    <input type="submit" value="Submit Inquiry" class="w-full p-3 rounded bg-blue-600 hover:bg-blue-700 text-white font-semibold cursor-pointer transition duration-300 ease-in-out text-lg"> <!-- Larger text -->
+                    <button type="submit" id="submit-button"
+                            class="w-full rounded-md bg-blue-600 px-5 py-3 text-base font-medium text-white shadow-md transition duration-150 ease-in-out hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-slate-800 disabled:opacity-50 disabled:cursor-not-allowed">
+                        Submit Inquiry
+                    </button>
                 </div>
             </form>
         </div>
     </main>
 
     <!-- Thank You Popup -->
-    <div id="thank-you-popup" class="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-80 hidden z-50">
-        <div class="bg-gray-800 p-8 rounded-lg shadow-xl text-center max-w-sm mx-auto">
-            <h2 class="text-2xl font-semibold mb-4 text-blue-400">Thank You!</h2>
-            <p class="text-gray-300">Your inquiry has been received. We'll be in touch shortly!</p>
-            <p class="text-sm text-gray-500 mt-4">(This message will close in 5 seconds...)</p>
+    <div id="thank-you-popup" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black bg-opacity-75 transition-opacity duration-300 ease-in-out">
+        <div class="m-4 max-w-sm rounded-lg bg-slate-800 p-6 text-center shadow-xl sm:p-8">
+            <h2 class="mb-4 text-2xl font-semibold text-blue-400">Thank You!</h2>
+            <p class="text-slate-300">Your inquiry has been received. We'll be in touch shortly!</p>
+            <p class="mt-4 text-sm text-slate-500">(This message will close automatically)</p>
         </div>
     </div>
 
-    <footer class="bg-gray-900 py-8 px-4 sm:px-6 lg:px-8 mt-auto">
-        <div class="max-w-6xl mx-auto text-center text-gray-400">
+    <!-- Footer -->
+    <footer class="mt-auto bg-slate-900 py-8 px-4 sm:px-6 lg:px-8"> <!-- Ensure footer is pushed down -->
+        <div class="mx-auto max-w-6xl text-center text-slate-400">
             © <span id="year"></span> Sinara Realty Solutions. All rights reserved. A part of Sinara Global.
         </div>
     </footer>
 
+    <!-- Link JavaScript file -->
     <script src="form.js"></script>
-     <script>
-        // Ensure the year script runs after the element exists
-        document.addEventListener('DOMContentLoaded', (event) => {
-            const yearSpan = document.getElementById('year');
-            if (yearSpan) {
-                yearSpan.textContent = new Date().getFullYear();
-            }
-        });
-    </script>
+
 </body>
 </html>

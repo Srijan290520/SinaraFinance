@@ -1,177 +1,203 @@
-// --- START OF FILE form.js ---
-
 document.addEventListener('DOMContentLoaded', () => {
-    console.log("DOM fully loaded and parsed.");
+    console.log("Form JS: DOM fully loaded.");
 
     // --- Element Selection ---
     const form = document.getElementById('contact-form');
-    const userTypeRadios = form?.querySelectorAll('input[name="user_type"]'); // Use optional chaining on form
+    const userTypeRadios = form?.querySelectorAll('input[name="user_type"]');
     const agentFieldsContainer = document.getElementById('agent-fields');
     const buyerFieldsContainer = document.getElementById('buyer-fields');
-    const submitButton = form?.querySelector('input[type="submit"]'); // Use optional chaining on form
+    const submitButton = document.getElementById('submit-button'); // Use button ID
     const thankYouPopup = document.getElementById('thank-you-popup');
     const yearSpan = document.getElementById('year');
 
-    // --- Initial Element Validation ---
+    // --- Robust Initial Element Validation ---
     let initializationError = false;
-    if (!form) { console.error("Initialization Error: Form with id 'contact-form' not found!"); initializationError = true; }
-    if (!userTypeRadios || userTypeRadios.length === 0) { console.error("Initialization Error: Radio buttons with name 'user_type' not found inside the form!"); initializationError = true; }
-    if (!agentFieldsContainer) { console.error("Initialization Error: Div with id 'agent-fields' not found!"); initializationError = true; }
-    if (!buyerFieldsContainer) { console.error("Initialization Error: Div with id 'buyer-fields' not found!"); initializationError = true; }
-    if (!submitButton) { console.error("Initialization Error: Submit button not found inside the form!"); initializationError = true; }
-    if (!thankYouPopup) { console.warn("Initialization Warning: Thank you popup with id 'thank-you-popup' not found."); } // Warn instead of error
-    if (!yearSpan) { console.warn("Initialization Warning: Year span with id 'year' not found."); } // Warn instead of error
+    if (!form) { console.error("Form JS Error: Form '#contact-form' not found!"); initializationError = true; }
+    if (!userTypeRadios || userTypeRadios.length !== 2) { console.error("Form JS Error: Need exactly two radios named 'user_type'. Found:", userTypeRadios?.length); initializationError = true; }
+    if (!agentFieldsContainer) { console.error("Form JS Error: Div '#agent-fields' not found!"); initializationError = true; }
+    if (!buyerFieldsContainer) { console.error("Form JS Error: Div '#buyer-fields' not found!"); initializationError = true; }
+    if (!submitButton) { console.error("Form JS Error: Button '#submit-button' not found!"); initializationError = true; }
+    if (!thankYouPopup) { console.warn("Form JS Warning: Popup '#thank-you-popup' not found."); }
 
     // Stop if critical elements are missing
     if (initializationError) {
-        console.error("Stopping script execution due to missing critical form elements.");
-        if(form) form.innerHTML = "<p class='text-red-400 text-center font-semibold p-4'>Error: Form failed to initialize correctly. Element IDs might be incorrect in HTML.</p>";
-        return; // Stop script
+        console.error("Form JS: Stopping script due to missing critical elements.");
+        if(form) form.innerHTML = "<p class='text-red-400 text-center font-semibold p-4'>Error: Form failed to initialize correctly. Please contact support or check element IDs.</p>";
+        return; // Stop
     }
-    console.log("All critical form elements found.");
+    console.log("Form JS: All critical elements found.");
 
     // --- Conditional Field Logic ---
     function toggleConditionalFields() {
-        // Ensure containers exist before trying to access classList
-        if (!agentFieldsContainer || !buyerFieldsContainer) return;
-
+        // These elements are guaranteed to exist if we passed the initial check
         try {
-            const selectedType = form.querySelector('input[name="user_type"]:checked')?.value;
-            console.log("User type changed/checked:", selectedType);
+            const selectedRadio = form.querySelector('input[name="user_type"]:checked');
+            const selectedType = selectedRadio ? selectedRadio.value : null;
+            console.log("Form JS: Toggling fields based on selection:", selectedType);
 
+            // Always hide both first using Tailwind's 'hidden' class
             agentFieldsContainer.classList.add('hidden');
             buyerFieldsContainer.classList.add('hidden');
 
+            // Show the relevant one
             if (selectedType === 'agent') {
                 agentFieldsContainer.classList.remove('hidden');
-                console.log("Showing agent fields.");
+                console.log("Form JS: Showing agent fields.");
             } else if (selectedType === 'buyer_seller') {
                 buyerFieldsContainer.classList.remove('hidden');
-                console.log("Showing buyer/seller fields.");
+                console.log("Form JS: Showing buyer/seller fields.");
+            } else {
+                console.log("Form JS: No selection, conditional fields remain hidden.");
             }
         } catch (error) {
-            console.error("Error in toggleConditionalFields:", error);
+            console.error("Form JS: Error in toggleConditionalFields:", error);
         }
     }
 
-    // Add event listeners safely
+    // --- Attach Event Listeners ---
     userTypeRadios.forEach(radio => {
         radio.addEventListener('change', toggleConditionalFields);
     });
+    console.log("Form JS: Added 'change' listeners to radio buttons.");
 
-    // Initial setup call
-    console.log("Performing initial call to toggleConditionalFields...");
-    toggleConditionalFields();
-    console.log("Initial field visibility set.");
+    // --- Initial Call to Set Visibility ---
+    console.log("Form JS: Initial call to toggleConditionalFields.");
+    toggleConditionalFields(); // Set initial state
 
-    // --- Form Submission Logic ---
+    // --- Form Submission Handler ---
     form.addEventListener('submit', function(event) {
-        event.preventDefault();
-        console.log("Form submission initiated.");
+        event.preventDefault(); // Prevent default page reload
+        console.log("Form JS: Submit event triggered.");
 
-        const originalButtonText = submitButton.value;
-        submitButton.value = 'Submitting...';
+        const originalButtonText = submitButton.textContent; // Use textContent for button
+        submitButton.textContent = 'Submitting...';
         submitButton.disabled = true;
 
-        // Collect Form Data Safely
-        const formData = {
-            userType: form.querySelector('input[name="user_type"]:checked')?.value || 'N/A',
-            fullName: document.getElementById('full_name')?.value || '',
-            email: document.getElementById('email')?.value || '',
-            phone: document.getElementById('phone')?.value || '',
-            interest: document.getElementById('interest')?.value || '',
-            location: document.getElementById('location')?.value || '',
-            buyerDetails: document.getElementById('buyer_details')?.value || '',
-            brokerage: document.getElementById('brokerage')?.value || '',
-            agentNeeds: document.getElementById('agent_needs')?.value || '',
-        };
+        // Collect Form Data into a plain object
+        const formDataObject = {};
+        const formElements = form.elements; // Get all form controls
 
-        // Optionally clean data (not strictly necessary)
-        if (formData.userType !== 'buyer_seller') {
-            delete formData.interest; delete formData.location; delete formData.buyerDetails;
-        }
-        if (formData.userType !== 'agent') {
-            delete formData.brokerage; delete formData.agentNeeds;
+        for (let i = 0; i < formElements.length; i++) {
+            const element = formElements[i];
+            // Only include named elements that have a value and aren't buttons/fieldsets
+            if (element.name && element.value !== undefined && element.type !== 'submit' && element.type !== 'button' && element.tagName !== 'FIELDSET') {
+                 // Handle radio buttons specifically (only include the checked one)
+                 if (element.type === 'radio') {
+                     if (element.checked) {
+                         formDataObject[element.name] = element.value;
+                     }
+                 } else {
+                      formDataObject[element.name] = element.value;
+                 }
+            }
         }
 
-        console.log("Attempting to send data:", JSON.stringify(formData));
-        const scriptURL = 'https://script.google.com/macros/s/AKfycbxz57tW7ek7yrWIGsqIZriv4Idl007-JMrCsio8uT2PlEjQD9brBnfij6LZhOhDn1WxqA/exec'; // Your URL
+         // Clean irrelevant fields based on the *submitted* userType
+         const submittedUserType = formDataObject['user_type'];
+         if (submittedUserType === 'buyer_seller') {
+             delete formDataObject['brokerage'];
+             delete formDataObject['agent_needs'];
+         } else if (submittedUserType === 'agent') {
+             delete formDataObject['interest'];
+             delete formDataObject['location'];
+             delete formDataObject['buyer_details'];
+         }
 
-        // --- Fetch Call ---
+        console.log("Form JS: Attempting to send JSON data:", JSON.stringify(formDataObject));
+
+        // ==================================================================
+        // !! IMPORTANT !! Replace with your NEWEST deployed Web App URL
+        // ==================================================================
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbyNyKGMesO1tjCoGP3t6i_l9K0lo4W-ACKz87nYg-_d41dG0ICue5aUW6X1hfTw0MStVg/exec'; // <-- PASTE YOUR URL HERE
+        // ==================================================================
+
+        if (scriptURL === 'YOUR_NEW_WEB_APP_URL_HERE' || !scriptURL) {
+             console.error("Form JS: SCRIPT URL NOT SET!");
+             alert("Configuration error: Submission endpoint is missing.");
+             submitButton.textContent = originalButtonText; // Restore text
+             submitButton.disabled = false;
+             return; // Stop submission
+        }
+
+        // --- Standard Fetch Call with JSON ---
         fetch(scriptURL, {
             method: 'POST',
             // NO 'mode: no-cors'
             cache: 'no-cache',
             headers: {
                 'Content-Type': 'application/json'
+                // Accept header isn't strictly necessary but good practice
+                // 'Accept': 'application/json'
             },
-            body: JSON.stringify(formData)
+            body: JSON.stringify(formDataObject) // Send the data object as a JSON string
         })
         .then(response => {
-            console.log('Fetch response received. Status:', response.status, 'Ok:', response.ok);
-             // Log headers to check for CORS
-            console.log("Response Headers:");
-            response.headers.forEach((value, name) => {
-                 console.log(`  ${name}: ${value}`);
-            });
+            console.log('Form JS: Fetch response received. Status:', response.status, 'Ok:', response.ok);
+            // Log headers to check CORS
+            console.log("Form JS: Response Headers:");
+            response.headers.forEach((value, name) => { console.log(`  ${name}: ${value}`); });
 
-            // If response is not OK (e.g., 4xx, 5xx), try to get text first
-             if (!response.ok) {
-                console.warn("Response status was not OK. Attempting to read response text.");
-                return response.text().then(text => {
-                    console.error("Non-OK response body:", text);
-                    // Throw an error to be caught by the .catch block
-                    throw new Error(`Server responded with status ${response.status}: ${text.substring(0, 100)}...`); // Include status and start of text
-                });
-            }
-
-            // Only attempt .json() if response status is OK
-            console.log("Response OK, attempting to parse JSON...");
-            return response.json();
+            // Always try to get the text first to see what the server actually sent
+            return response.text();
         })
-        .then(data => {
-            console.log('Parsed JSON Response from Apps Script:', data);
-            if (data && data.result === "success") { // Check data exists
-                console.log("Submission successful according to Apps Script.");
-                if(thankYouPopup) thankYouPopup.classList.remove('hidden');
-                form.reset();
-                toggleConditionalFields();
-                setTimeout(() => {
-                   if(thankYouPopup) thankYouPopup.classList.add('hidden');
-                }, 5000);
-            } else {
-                 // Handle cases where response was JSON but not a success result
-                 const errorMessage = data && data.error ? data.error : 'Unknown error format from script.';
-                 console.error('Apps Script reported an error:', errorMessage, 'Received data:', data);
-                 alert('Submission failed: ' + errorMessage);
+        .then(text => {
+            console.log("Form JS: Raw Response Text:", text);
+            try {
+                 // Try to parse the text as JSON
+                 const data = JSON.parse(text);
+                 console.log('Form JS: Parsed JSON Response from Apps Script:', data);
+
+                 // Check the result property from the parsed JSON
+                 if (data && data.result === "success") {
+                     console.log("Form JS: Submission successful.");
+                     if(thankYouPopup) {
+                         thankYouPopup.classList.remove('hidden');
+                         thankYouPopup.classList.add('flex'); // Use flex to show centered content
+                     }
+                     form.reset(); // Clear the form
+                     toggleConditionalFields(); // Hide conditional fields again
+
+                     setTimeout(() => {
+                        if(thankYouPopup) {
+                            thankYouPopup.classList.add('hidden');
+                            thankYouPopup.classList.remove('flex');
+                        }
+                     }, 5000); // Hide after 5 seconds
+                 } else {
+                     // Handle application-level errors reported in the JSON
+                     const errorMessage = data?.error || 'Unknown error structure in response.'; // Safer access
+                     console.error('Form JS: Apps Script reported an error:', errorMessage, 'Received data:', data);
+                     alert('Submission failed: ' + errorMessage);
+                 }
+            } catch (parseError) {
+                 // Handle cases where the response text was NOT valid JSON
+                 console.error("Form JS: Error parsing response text as JSON:", parseError, "\nResponse Text was:", text);
+                 // Show generic error, maybe include start of text if short & safe
+                 let errorDetail = text.length < 100 ? text : text.substring(0,100) + "...";
+                 alert("Submission failed: Could not process the server response. Response: " + errorDetail);
             }
         })
         .catch(error => {
-            console.error('Fetch Error encountered:', error);
-             // Check if it's the TypeError from response.json()
-            if (error instanceof TypeError) {
-                console.error("TypeError suggests response wasn't valid JSON or CORS prevented reading the body.");
-                alert('There was an issue processing the server response. Please check console logs or contact support.'); // Changed alert slightly
-            } else {
-                // Handle other errors (network, non-OK response text, etc.)
-                 alert('Submission Error: ' + error.message); // Display the specific error message
-            }
+            // Handle network errors (fetch couldn't connect, DNS issues, etc.)
+            console.error('Form JS: Fetch Error encountered:', error);
+            alert('Submission Network Error: ' + error.message + ". Please check your internet connection.");
         })
         .finally(() => {
-             submitButton.value = originalButtonText;
-             submitButton.disabled = false;
-             console.log("Form submission process finished.");
+             // Ensure button state is always restored
+             if (submitButton) {
+                 submitButton.textContent = originalButtonText; // Restore text
+                 submitButton.disabled = false;
+             }
+             console.log("Form JS: Form submission process finished.");
         });
         // --- End Fetch Call ---
-    });
+    }); // End form submit listener
 
     // Set footer year
     if (yearSpan) {
         yearSpan.textContent = new Date().getFullYear();
     } else {
-        console.warn("Could not set footer year: span#year not found.");
+        console.warn("Form JS: Could not set footer year: span#year not found.");
     }
 
 }); // End DOMContentLoaded listener
-
-// --- END OF FILE form.js ---
