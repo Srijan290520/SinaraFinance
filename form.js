@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const form = document.getElementById('inquiry-form');
     const submitButton = form ? form.querySelector('input[type="submit"]') : null; // Get button relative to form
     const popup = document.getElementById('thank-you-popup');
-    const scriptURL = 'https://script.google.com/macros/s/AKfycbzZlr3zoF6Svqic9JXF5Rb0blRK4aiKbnKkdnq6Hz4GncdP707QV6Xb4ceKVwKLRX5D/exec'; // <-- Replace with YOUR actual script URL
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbyOf12o5Gf2fjcqW-8uov7n4ycNIlBcP--nGeg50_PtG1NldGNvEHrtrTLFF0besLIU/exec'; // <-- Replace with YOUR actual script URL
 
     // Check if the form element actually exists before adding listener
     if (form && submitButton) {
@@ -98,16 +98,21 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
     // --- Logic to show/hide buyer/seller details based on radio button selection ---
+    // Note: This part was missing in the previous JS, adding it back
     const buyerDetailsDiv = document.getElementById('buyer_details_div');
     const sellerDetailsDiv = document.getElementById('seller_details_div');
-    const userTypeRadios = document.querySelectorAll('input[name="user_type"]');
+    const interestRadios = document.querySelectorAll('input[name="interest"]'); // Changed to listen on interest radios
 
     function toggleDetailsVisibility() {
-        const selectedType = document.querySelector('input[name="user_type"]:checked');
-        if (!selectedType) return; // Do nothing if no radio is selected initially
+        const selectedInterest = document.querySelector('input[name="interest"]:checked');
+        if (!selectedInterest) { // Handle case where nothing is selected initially
+             if(buyerDetailsDiv) buyerDetailsDiv.style.display = 'none';
+             if(sellerDetailsDiv) sellerDetailsDiv.style.display = 'none';
+            return;
+        };
 
-        const showBuyer = (selectedType.value === 'buyer' || selectedType.value === 'buyer_seller');
-        const showSeller = (selectedType.value === 'seller' || selectedType.value === 'buyer_seller');
+        const showBuyer = (selectedInterest.value === 'buyer' || selectedInterest.value === 'buyer_seller');
+        const showSeller = (selectedInterest.value === 'seller' || selectedInterest.value === 'buyer_seller');
 
         if (buyerDetailsDiv) {
             buyerDetailsDiv.style.display = showBuyer ? 'block' : 'none';
@@ -117,7 +122,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    userTypeRadios.forEach(radio => {
+    interestRadios.forEach(radio => {
         radio.addEventListener('change', toggleDetailsVisibility);
     });
 
