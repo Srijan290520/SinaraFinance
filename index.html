@@ -3,38 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sinara Realty Solutions - Your Partner in Real Estate</title> <!-- Broadened Title -->
-    <meta name="description" content="Connecting home buyers and sellers with expert real estate agents. Explore properties, find agents, and access resources with Sinara Realty Solutions."> <!-- Updated Meta Description -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <title>Sinara Realty Solutions - Real Estate Lead Generation</title>
+    <meta name="description" content="Sinara Realty Solutions connects real estate professionals with high-quality buyer and seller leads to boost sales and grow their business.">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
      <script>
+        // Optional Tailwind Config
         tailwind.config = {
           theme: {
             extend: {
               fontFamily: {
                 inter: ['Inter', 'sans-serif'],
               },
+              colors: {
+                'brand-blue': '#3b82f6',
+                'brand-purple': '#8b5cf6',
+                'brand-darkblue': '#1e3a8a',
+              }
             }
           }
         }
     </script>
     <link rel="stylesheet" href="index.css">
 </head>
-<body class="bg-gray-950 text-white font-inter">
-    <header class="header sticky top-0 z-40 py-4 px-6 shadow-md">
+<body class="antialiased"> <!-- Base styles from index.css -->
+
+    <!-- Header -->
+    <header class="header sticky top-0 z-40 py-3 px-4 sm:px-6 lg:px-8">
         <div class="container mx-auto flex justify-between items-center">
-            <a href="#home" class="text-xl font-semibold text-white">Sinara Realty Solutions</a>
+            <a href="#home" class="header-logo-link">
+                <h1>Sinara Realty Solutions</h1>
+            </a>
             <nav class="hidden md:block">
-                <ul class="flex space-x-6 items-center">
-                    <!-- Updated Nav Links -->
-                    <li><a href="#offerings" class="nav-link">What We Offer</a></li>
+                <ul class="flex space-x-6 lg:space-x-8 items-center">
+                    <li><a href="#services" class="nav-link">Solutions</a></li>
                     <li><a href="#process" class="nav-link">How It Works</a></li>
-                    <li><a href="#testimonials" class="nav-link">Success Stories</a></li>
                     <li><a href="#about" class="nav-link">About Us</a></li>
-                    <li><a href="form.html" class="cta-button text-sm px-4 py-2">Contact Us</a></li> <!-- General Contact CTA -->
+                    <li><a href="#clients" class="nav-link">Clients</a></li>
+                     <li><a href="form.html" class="cta-button text-sm px-5 py-2">Get Leads</a></li>
                 </ul>
             </nav>
-            <button id="menu-btn" class="md:hidden text-white focus:outline-none" aria-label="Open Menu">
+            <button id="menu-btn" class="md:hidden text-gray-600 hover:text-brand-darkblue focus:outline-none" aria-label="Open Menu">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
                 </svg>
@@ -43,11 +52,11 @@
     </header>
 
     <!-- Mobile Menu -->
-    <div id="mobile-menu" class="hidden fixed inset-0 bg-gray-900 bg-opacity-95 z-50">
-        <div class="bg-gray-800 w-full max-w-xs h-full absolute right-0 p-6 shadow-xl">
+    <div id="mobile-menu" class="hidden fixed inset-0 z-50"> <!-- Background handled by CSS -->
+        <div class="bg-white w-full max-w-xs h-full absolute right-0 p-6 shadow-xl">
              <div class="flex justify-between items-center mb-8">
-                 <span class="text-lg font-semibold text-white">Menu</span>
-                <button id="close-menu-btn" class="text-gray-400 hover:text-white focus:outline-none" aria-label="Close Menu">
+                 <span class="text-lg font-semibold text-gray-700">Menu</span>
+                <button id="close-menu-btn" class="text-gray-500 hover:text-gray-800 focus:outline-none" aria-label="Close Menu">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                     </svg>
@@ -55,218 +64,169 @@
             </div>
             <nav class="block">
                 <ul class="space-y-5">
-                    <!-- Updated Mobile Nav Links -->
-                    <li><a href="#offerings" class="nav-link text-lg block py-2 hover:text-blue-400">What We Offer</a></li>
-                    <li><a href="#process" class="nav-link text-lg block py-2 hover:text-blue-400">How It Works</a></li>
-                    <li><a href="#testimonials" class="nav-link text-lg block py-2 hover:text-blue-400">Success Stories</a></li>
-                    <li><a href="#about" class="nav-link text-lg block py-2 hover:text-blue-400">About Us</a></li>
-                     <li><a href="form.html" class="mt-4 inline-block cta-button w-full text-center">Contact Us</a></li>
+                    <li><a href="#services" class="nav-link text-lg block py-2">Solutions</a></li>
+                    <li><a href="#process" class="nav-link text-lg block py-2">How It Works</a></li>
+                    <li><a href="#about" class="nav-link text-lg block py-2">About Us</a></li>
+                    <li><a href="#clients" class="nav-link text-lg block py-2">Clients</a></li>
+                    <li><a href="form.html" class="mt-6 inline-block cta-button w-full text-center">Get Started Now</a></li>
                 </ul>
             </nav>
         </div>
     </div>
 
     <!-- Hero Section -->
-    <section id="home" class="hero py-20 md:py-24 px-4 sm:px-6 lg:px-8 text-center"> <!-- Adjusted padding -->
-        <div class="max-w-4xl mx-auto">
-            <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold mb-6">
-                <span class="block">Navigate Your Real Estate Journey</span> <!-- More inclusive headline -->
-                <span class="block bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-500">With Confidence.</span>
+    <section id="home" class="hero text-center"> <!-- Styling via CSS -->
+        <div class="max-w-4xl mx-auto px-4">
+            <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold mb-6"> <!-- Color/shadow via CSS -->
+                <span class="block">Stop Chasing Leads.</span>
+                <span class="block text-brand-blue">Start Closing Deals.</span> <!-- Specific blue override -->
             </h1>
-            <p class="text-lg sm:text-xl text-gray-300 mb-10 max-w-3xl mx-auto"> <!-- Wider max-width -->
-                Whether you're buying your dream home, selling your property, or a real estate agent seeking growth, Sinara Realty Solutions connects you to the resources and expertise you need.
+            <p class="text-lg sm:text-xl mb-10 max-w-2xl mx-auto"> <!-- Color/shadow via CSS -->
+                We connect ambitious real estate professionals with a consistent flow of high-intent buyer and seller leads in your target market.
             </p>
-            <div class="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-6"> <!-- Increased spacing -->
-                <!-- CTA for Buyers/Sellers -->
-                <a href="form.html" class="cta-button inline-flex items-center text-lg px-8 py-3">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
-                      <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd" />
-                    </svg>
-                    Find Properties or Agents
-                </a>
-                <!-- CTA for Agents -->
-                <a href="form.html" class="agent-cta-button inline-flex items-center text-lg px-8 py-3">
-                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
-                       <path d="M8 9a3 3 0 100-6 3 3 0 000 6zM8 11a6 6 0 016 6H2a6 6 0 016-6zM16 7a1 1 0 10-2 0v1h-1a1 1 0 100 2h1v1a1 1 0 102 0v-1h1a1 1 0 100-2h-1V7z" />
-                     </svg>
-                    Agent Services & Growth
-                </a>
+            <div class="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-4">
+                <a href="form.html" class="cta-button text-lg px-8 py-3">Find Your Next Client</a>
+                <a href="#services" class="secondary-cta-button text-lg px-8 py-3">Explore Solutions</a>
             </div>
         </div>
     </section>
 
-    <!-- Offerings Section (Replaces Services) -->
-    <section id="offerings" class="py-16 px-4 sm:px-6 lg:px-8">
+    <!-- Services Section -->
+    <section id="services" class="px-4 sm:px-6 lg:px-8"> <!-- Default white background -->
         <div class="max-w-6xl mx-auto">
-            <h2 class="text-3xl sm:text-4xl font-semibold text-center mb-12 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-400">
-                What We Offer <!-- Changed Title -->
+            <h2 class="text-3xl sm:text-4xl font-semibold text-center mb-12 md:mb-16 text-gray-800">
+                Targeted Lead Generation Solutions
             </h2>
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-                <!-- Card 1: Property Search (Buyers) -->
+                <!-- Service Card 1: Buyer Leads -->
                 <div class="service-card">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="service-icon text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                      <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                      <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3" /> {/* Icon combining search and house */}
-                    </svg>
-                    <h3 class="service-card-title">Explore Properties</h3>
-                    <p class="service-card-description">Access comprehensive property listings in your desired areas. (Coming Soon / Link to Search)</p>
-                    <a href="#" class="service-card-link opacity-50 cursor-not-allowed">Start Your Search {/* Link disabled for now */}
-                        {/* Placeholder - No arrow as it's disabled */}
-                    </a>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="service-icon text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"> <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /> </svg>
+                    <h3>Qualified Buyer Leads</h3>
+                    <p>Receive motivated buyer leads actively searching for properties in your specific service areas.</p>
+                    <a href="form.html" class="learn-more-link">Get Buyer Leads <svg xmlns="http://www.w3.org/2000/svg" class="ml-1 w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /> </svg> </a>
                 </div>
-                <!-- Card 2: Agent Connection (Buyers/Sellers) -->
+                <!-- Service Card 2: Seller Leads -->
                 <div class="service-card">
-                     <svg xmlns="http://www.w3.org/2000/svg" class="service-icon text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-                    </svg>
-                    <h3 class="service-card-title">Connect With Top Agents</h3>
-                    <p class="service-card-description">Find experienced, local real estate agents from our vetted network to guide your transaction.</p>
-                    <a href="form.html" class="service-card-link">Find an Agent
-                        <svg xmlns="http://www.w3.org/2000/svg" class="ml-1 w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                        </svg>
-                    </a>
+                     <svg xmlns="http://www.w3.org/2000/svg" class="service-icon text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"> <path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /> </svg>
+                    <h3>Targeted Seller Leads</h3>
+                    <p>Connect with homeowners interested in selling their property, ready for your listing presentation.</p>
+                    <a href="form.html" class="learn-more-link">Get Seller Leads <svg xmlns="http://www.w3.org/2000/svg" class="ml-1 w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /> </svg> </a>
                 </div>
-                <!-- Card 3: Agent Growth (Agents) -->
+                <!-- Service Card 3: Follow-Up -->
                 <div class="service-card">
-                     <svg xmlns="http://www.w3.org/2000/svg" class="service-icon text-purple-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                       <path stroke-linecap="round" stroke-linejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
-                     </svg>
-                    <h3 class="service-card-title">Agent Growth Solutions</h3>
-                    <p class="service-card-description">Receive qualified buyer/seller leads, access marketing tools, and leverage our platform to scale your business.</p>
-                     <a href="form.html" class="service-card-link">Grow Your Business
-                        <svg xmlns="http://www.w3.org/2000/svg" class="ml-1 w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                        </svg>
-                    </a>
+                     <svg xmlns="http://www.w3.org/2000/svg" class="service-icon text-purple-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"> <path stroke-linecap="round" stroke-linejoin="round" d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z" /> </svg>
+                    <h3>Automated Follow-Up</h3>
+                    <p>Implement systems to nurture leads effectively, ensuring no opportunity is missed.</p>
+                     <a href="form.html" class="learn-more-link">Automate Follow-Up <svg xmlns="http://www.w3.org/2000/svg" class="ml-1 w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /> </svg> </a>
                 </div>
-                 <!-- Card 4: Resources (Both) -->
+                 <!-- Service Card 4: Integration -->
                 <div class="service-card">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="service-icon text-yellow-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                      <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13a1.5 1.5 0 00-3 0m3 0a1.5 1.5 0 013 0M9 19.253a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m6 .5a1.5 1.5 0 013 0m-3 0a1.5 1.5 0 003 0M9 6.253a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0" /> {/* Balance Scale Icon */}
-                    </svg>
-                    <h3 class="service-card-title">Market Insights & Resources</h3>
-                    <p class="service-card-description">Stay informed with market trends, neighborhood guides, and helpful resources for buying, selling, and agent success.</p>
-                     <a href="#" class="service-card-link opacity-50 cursor-not-allowed">Explore Resources {/* Link disabled for now */}
-                         {/* Placeholder - No arrow as it's disabled */}
-                     </a>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="service-icon text-yellow-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"> <path stroke-linecap="round" stroke-linejoin="round" d="M17 14v6m-3-3h6M6 10h2a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v2a2 2 0 002 2zm10 0h2a2 2 0 002-2V6a2 2 0 00-2-2h-2a2 2 0 00-2 2v2a2 2 0 002 2zM6 20h2a2 2 0 002-2v-2a2 2 0 00-2-2H6a2 2 0 00-2 2v2a2 2 0 002 2z" /> </svg>
+                    <h3>CRM & System Integration</h3>
+                    <p>Seamlessly integrate our leads into your existing CRM and workflow processes.</p>
+                     <a href="form.html" class="learn-more-link">Integrate Systems <svg xmlns="http://www.w3.org/2000/svg" class="ml-1 w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /> </svg> </a>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- How It Works Section -->
-    <section id="process" class="bg-gray-900 py-16 px-4 sm:px-6 lg:px-8">
-        <div class="max-w-6xl mx-auto">
-            <h2 class="text-3xl sm:text-4xl font-semibold text-center mb-12 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-400">
-                Simple Steps to Success
+    <section id="process" class="bg-alternate px-4 sm:px-6 lg:px-8"> <!-- Light gray background -->
+        <div class="max-w-5xl mx-auto">
+             <h2 class="text-3xl sm:text-4xl font-semibold text-center mb-12 md:mb-16 text-gray-800">
+                Simple Process, Powerful Results
             </h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-10 text-center">
-                <!-- Step 1: Explore/Define -->
-                <div class="flex flex-col items-center">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
+                <!-- Step 1 -->
+                <div class="how-it-works-step">
                     <div class="step-number">1</div>
-                    <h3 class="text-xl font-semibold mb-2 text-white">Explore & Define</h3>
-                    <p class="text-gray-400"><span class="font-semibold text-gray-300">Buyers/Sellers:</span> Browse listings or tell us your needs. <br><span class="font-semibold text-gray-300">Agents:</span> Define your target clients and market.</p>
+                    <h3>Define Your Target</h3>
+                    <p>We work with you to understand your ideal client profile and target market (location, property type, etc.).</p>
                 </div>
-                <!-- Step 2: Connect -->
-                 <div class="flex flex-col items-center">
+                <!-- Step 2 -->
+                 <div class="how-it-works-step">
                      <div class="step-number">2</div>
-                    <h3 class="text-xl font-semibold mb-2 text-white">Connect</h3>
-                    <p class="text-gray-400"><span class="font-semibold text-gray-300">Buyers/Sellers:</span> We connect you with the right local agent. <br><span class="font-semibold text-gray-300">Agents:</span> Receive qualified leads and opportunities.</p>
+                    <h3>Launch Campaigns</h3>
+                    <p>Our team runs targeted digital marketing campaigns to attract potential buyers and sellers.</p>
                 </div>
-                <!-- Step 3: Achieve -->
-                 <div class="flex flex-col items-center">
+                <!-- Step 3 -->
+                 <div class="how-it-works-step">
                      <div class="step-number">3</div>
-                    <h3 class="text-xl font-semibold mb-2 text-white">Achieve Your Goals</h3>
-                    <p class="text-gray-400"><span class="font-semibold text-gray-300">Buyers/Sellers:</span> Navigate your transaction smoothly. <br><span class="font-semibold text-gray-300">Agents:</span> Close more deals and grow your practice.</p>
+                    <h3>Receive Qualified Leads</h3>
+                    <p>Verified, high-intent leads are delivered directly to you or your CRM, ready for follow-up.</p>
                 </div>
-            </div>
-        </div>
-    </section>
-
-     <!-- Testimonials Section (Replaces Clients/Partners) -->
-    <section id="testimonials" class="py-16 px-4 sm:px-6 lg:px-8">
-        <div class="max-w-6xl mx-auto">
-            <h2 class="text-3xl sm:text-4xl font-semibold text-center mb-12 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-400">
-                Hear From Our Community <!-- Changed Title -->
-            </h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- Testimonial 1 (Buyer Example) -->
-                <div class="testimonial-card">
-                    <p class="testimonial-quote">"Sinara connected us with an amazing agent who understood exactly what we were looking for. The process was so much smoother than we expected!"</p>
-                    <div class="testimonial-author">
-                        Sarah & Tom P.
-                        <div class="testimonial-author-role">Home Buyers, Austin TX</div>
-                    </div>
-                </div>
-                <!-- Testimonial 2 (Agent Example) -->
-                <div class="testimonial-card">
-                    <p class="testimonial-quote">"The quality of buyer leads I've received through Sinara has been outstanding. It's significantly boosted my conversion rate and saved me time."</p>
-                     <div class="testimonial-author">
-                        Michael R.
-                        <div class="testimonial-author-role">Real Estate Agent, XYZ Realty</div>
-                    </div>
-                </div>
-                <!-- Testimonial 3 (Seller Example) -->
-                 <div class="testimonial-card">
-                    <p class="testimonial-quote">"Selling our home felt daunting, but the agent Sinara recommended was fantastic – knowledgeable, responsive, and got us a great price."</p>
-                     <div class="testimonial-author">
-                        Jennifer L.
-                        <div class="testimonial-author-role">Home Seller, Miami FL</div>
-                    </div>
-                </div>
-                 <!-- Add more testimonials as needed -->
             </div>
         </div>
     </section>
 
     <!-- About Us Section -->
-    <section id="about" class="bg-gray-900 py-16 px-4 sm:px-6 lg:px-8"> <!-- Switched background -->
-        <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
+    <section id="about" class="px-4 sm:px-6 lg:px-8"> <!-- Default white background -->
+        <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 lg:gap-16 items-center">
             <div>
-                <h2 class="text-3xl sm:text-4xl font-semibold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-400">
-                    Your Partner in Real Estate Success
+                 <h2 class="text-3xl sm:text-4xl font-semibold mb-6 text-gray-800">
+                    Your Growth Partner in Real Estate
                 </h2>
-                <p class="text-gray-300 text-lg mb-6 leading-relaxed">
-                    Sinara Realty Solutions, part of Sinara Global, is dedicated to simplifying the real estate experience for everyone. We leverage technology and industry expertise to connect home buyers and sellers with top-tier real estate professionals.
+                <p class="text-gray-600 text-lg mb-8 leading-relaxed">
+                    Sinara Realty Solutions, a division of Sinara Global, is dedicated to fueling the growth of real estate professionals. We specialize in generating high-quality, exclusive leads through targeted digital marketing strategies. Forget cold calling – we deliver genuinely interested buyers and sellers directly to you.
                 </p>
-                 <p class="text-gray-300 text-lg mb-8 leading-relaxed">
-                    For buyers and sellers, we offer resources and connections to make your journey seamless. For agents, we provide powerful tools and high-quality opportunities to help you grow your business efficiently. Our mission is to foster successful transactions through trusted connections and valuable support.
-                </p>
-                <a href="form.html" class="cta-button inline-block">Learn More & Connect</a>
-            </div>
-            <div class="bg-gray-800 rounded-xl shadow-lg border border-gray-700 p-8">
-                 <h3 class="text-2xl font-semibold mb-4 text-white">Why Choose Sinara?</h3>
-                <ul class="space-y-3 text-gray-300">
-                    <li class="flex items-start">
-                        <svg class="w-5 h-5 text-blue-400 mr-2 mt-1 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
-                        <span>Vetted network of experienced agents</span>
-                    </li>
-                     <li class="flex items-start">
-                        <svg class="w-5 h-5 text-blue-400 mr-2 mt-1 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
-                        <span>Targeted solutions for buyers, sellers, and agents</span>
-                    </li>
-                     <li class="flex items-start">
-                        <svg class="w-5 h-5 text-blue-400 mr-2 mt-1 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
-                        <span>Focus on quality connections and efficiency</span>
-                    </li>
-                     <li class="flex items-start">
-                        <svg class="w-5 h-5 text-blue-400 mr-2 mt-1 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
-                        <span>Commitment to successful real estate outcomes</span>
-                    </li>
+                <ul class="space-y-3 text-gray-700">
+                    <li class="flex items-start"> <svg class="w-5 h-5 text-blue-500 mr-2 mt-1 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"> <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/> </svg> <span>Consistent flow of qualified buyer & seller leads</span> </li>
+                     <li class="flex items-start"> <svg class="w-5 h-5 text-blue-500 mr-2 mt-1 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"> <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/> </svg> <span>Targeted campaigns based on your specific market</span> </li>
+                     <li class="flex items-start"> <svg class="w-5 h-5 text-blue-500 mr-2 mt-1 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"> <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/> </svg> <span>Increased efficiency and higher ROI</span> </li>
+                     <li class="flex items-start"> <svg class="w-5 h-5 text-blue-500 mr-2 mt-1 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"> <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/> </svg> <span>Dedicated support and performance insights</span> </li>
                 </ul>
+                 <div class="mt-8">
+                     <a href="form.html" class="cta-button inline-block">Request Consultation</a>
+                 </div>
+            </div>
+            <!-- IMAGE PLACEHOLDER -->
+            <div class="mt-10 md:mt-0">
+                <!-- --- REPLACE THIS URL --- -->
+                <img src="https://placehold.co/600x450/a5b4fc/1e293b?text=Professional+Team+or+Office"
+                     alt="Sinara Realty Solutions Team"
+                     class="about-us-image w-full h-auto">
+                 <!-- --- END REPLACE --- -->
             </div>
         </div>
     </section>
 
+    <!-- Clients Section -->
+    <section id="clients" class="bg-alternate px-4 sm:px-6 lg:px-8">
+        <div class="max-w-6xl mx-auto">
+             <h2 class="text-3xl sm:text-4xl font-semibold text-center mb-12 md:mb-16 text-gray-800">
+                Trusted by Real Estate Professionals Like You
+            </h2>
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-x-8 gap-y-10 items-center justify-items-center">
+                <!-- --- REPLACE THESE PLACEHOLDERS --- -->
+                <img src="https://placehold.co/150x60/e0e7ff/4b5563?text=Brokerage+1" alt="Client Logo 1" class="client-logo">
+                <img src="https://placehold.co/150x60/e0e7ff/4b5563?text=Agent+Group+2" alt="Client Logo 2" class="client-logo">
+                <img src="https://placehold.co/150x60/e0e7ff/4b5563?text=Top+Team+3" alt="Client Logo 3" class="client-logo">
+                <img src="https://placehold.co/150x60/e0e7ff/4b5563?text=Realty+Co+4" alt="Client Logo 4" class="client-logo">
+                <img src="https://placehold.co/150x60/e0e7ff/4b5563?text=Broker+5" alt="Client Logo 5" class="client-logo">
+                <img src="https://placehold.co/150x60/e0e7ff/4b5563?text=Agent+6" alt="Client Logo 6" class="client-logo hidden sm:block">
+                 <img src="https://placehold.co/150x60/e0e7ff/4b5563?text=Luxury+Homes+7" alt="Client Logo 7" class="client-logo hidden md:block">
+                 <img src="https://placehold.co/150x60/e0e7ff/4b5563?text=Estate+Agency+8" alt="Client Logo 8" class="client-logo hidden md:block">
+                 <img src="https://placehold.co/150x60/e0e7ff/4b5563?text=Properties+9" alt="Client Logo 9" class="client-logo hidden lg:block">
+                 <img src="https://placehold.co/150x60/e0e7ff/4b5563?text=Brokerage+10" alt="Client Logo 10" class="client-logo hidden lg:block">
+                 <!-- --- END REPLACE --- -->
+            </div>
+        </div>
+    </section>
 
     <!-- Footer -->
-    <footer class="bg-gray-900 py-8 px-4 sm:px-6 lg:px-8">
-        <div class="max-w-6xl mx-auto text-center text-gray-400">
+    <footer class="footer"> <!-- Styling via CSS -->
+        <div class="max-w-6xl mx-auto text-center text-sm">
             © <span id="year"></span> Sinara Realty Solutions. All rights reserved. A part of Sinara Global.
         </div>
     </footer>
 
     <script src="index.js"></script>
+     <script>
+         // Ensure year script runs after element exists
+        document.addEventListener('DOMContentLoaded', (event) => {
+            const yearSpan = document.getElementById('year');
+            if (yearSpan) { yearSpan.textContent = new Date().getFullYear(); }
+        });
+    </script>
 </body>
 </html>

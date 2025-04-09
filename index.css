@@ -1,260 +1,318 @@
-/* Custom styles */
+/* Base styles */
+body {
+    background-color: #f8fafc; /* Light Gray background */
+    color: #1f2937; /* Dark Gray text */
+    font-family: 'Inter', sans-serif; /* Ensure font is applied */
+}
 
 /* Header styles */
 .header {
-    background-image: linear-gradient(to bottom, #111827, #4c1d95, #000000);
-    height: 100px; /* Increased height */
+    background-color: #ffffff; /* White background */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); /* Subtle shadow */
+    border-bottom: 1px solid #e5e7eb; /* Light border */
 }
-.header h1 {
+/* Keep logo text gradient for branding */
+.header-logo-link h1 {
     background: linear-gradient(to right, #60a5fa, #8b5cf6);
     -webkit-background-clip: text;
     color: transparent;
+    font-size: 1.5rem; /* Adjust size as needed */
+    font-weight: 700;
 }
 
-/* Body styles */
-body {
-    background-color: #0f172a;
-    color: #f8fafc;
+/* Override specific dark theme classes (Consider removing these overrides and changing classes in HTML for better Tailwind practice) */
+.bg-gray-900 { /* Used for sections/footer originally */
+    background-color: #f3f4f6; /* Very Light Gray */
 }
-.bg-gray-900 {
-    background-color: #1e293b;
+.bg-gray-800 { /* Used for cards originally */
+     background-color: #ffffff; /* White */
+     border: 1px solid #e5e7eb; /* Light border */
+     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03); /* Soft shadow */
 }
-.text-gray-900 {
-    color: #f8fafc;
+.text-gray-900 { /* Used for primary text on dark */
+    color: #1f2937; /* Dark Gray */
 }
-.border-gray-800 {
-    border-color: #4b5563;
+.text-gray-300 { /* Used for secondary text on dark */
+    color: #4b5563; /* Medium Gray */
+}
+.text-gray-400 { /* Used for tertiary text on dark */
+    color: #6b7280; /* Slightly Lighter Medium Gray */
+}
+.border-gray-800 { /* Used for borders on dark */
+    border-color: #d1d5db; /* Light Gray border */
+}
+.border-gray-700 { /* Used for hover borders on dark */
+     border-color: #9ca3af; /* Medium Gray border */
 }
 .hover\:border-gray-700:hover {
-    border-color: #6b7280;
+    border-color: #9ca3af;
 }
+.text-white { /* If used for titles on dark sections */
+    color: #111827; /* Very Dark Gray / Near Black */
+}
+
 
 /* Section styles */
 section {
-    margin-bottom: 6rem;
+    margin-bottom: 0; /* Remove default margin, control with padding */
+    padding-top: 4rem; /* Add padding */
+    padding-bottom: 4rem; /* Add padding */
+}
+@media (min-width: 768px) {
+    section {
+        padding-top: 6rem;
+        padding-bottom: 6rem;
+    }
 }
 section:last-child {
-    margin-bottom: 0;
+    padding-bottom: 0; /* No extra padding needed before footer */
 }
+/* Alternate section background */
+section.bg-alternate {
+     background-color: #f3f4f6; /* Very Light Gray */
+}
+
 
 /* Hero section styles */
 .hero {
-    padding-top: 10rem; /* Adjusted padding */
-    padding-bottom: 12rem; /* Adjusted padding */
+    padding-top: 6rem;
+    padding-bottom: 6rem;
+    background-color: #e0e7ff; /* Fallback */
+    /* --- REPLACE THIS URL --- */
+    background-image: linear-gradient(rgba(29, 78, 216, 0.05), rgba(29, 78, 216, 0.05)), url(''); /* Low opacity gradient overlay + Placeholder Image */
+    /* --- END REPLACE --- */
+    background-size: cover;
+    background-position: center center;
+    /* Text color for the hero section */
+    color: #1e3a8a;
+}
+
+.hero h1 {
+    color: #1e3a8a; /* Darker blue */
+    background: none;
+    -webkit-background-clip: unset;
+    font-weight: 700; /* Ensure font weight is sufficient */
+    /* Text Shadow for contrast */
+    text-shadow: 1px 1px 3px rgba(255, 255, 255, 0.6); /* Subtle white shadow */
+}
+.hero p {
+    color: #374151; /* Darker gray */
+    /* Text Shadow for contrast */
+    text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.7); /* Subtle white shadow */
+    font-weight: 500; /* Slightly bolder paragraph */
 }
 @media (max-width: 768px) {
     .hero {
-        padding-top: 7rem;
-        padding-bottom: 7rem;
+        padding-top: 4rem;
+        padding-bottom: 4rem;
+    }
+    .hero h1 {
+        font-size: 2.5rem; /* Adjust font size for mobile if needed */
+    }
+    .hero p {
+        font-size: 1.05rem;
     }
 }
 
+
 /* Navigation link styles */
 .nav-link {
-    color: #d1d5db;
-    transition: color 0.3s ease;
+    color: #4b5563; /* Medium Gray */
+    transition: color 0.3s ease, border-color 0.3s ease; /* Added border-color transition */
+    padding-bottom: 4px; /* Space for border */
+    border-bottom: 2px solid transparent; /* Placeholder for active border */
 }
 .nav-link:hover {
-    color: #ffffff;
+    color: #1e3a8a; /* Dark Blue */
 }
 /* Active nav link style */
 .nav-link.active {
-    color: #ffffff;
+    color: #1e3a8a; /* Dark Blue */
     font-weight: 600;
-    border-bottom: 2px solid #8b5cf6;
-    padding-bottom: 2px;
+    border-bottom-color: #60a5fa; /* Light Blue accent */
 }
 
 
 /* CTA button styles */
 .cta-button {
-    background-image: linear-gradient(to right, #3b82f6, #8b5cf6);
+    background-image: linear-gradient(to right, #3b82f6, #8b5cf6); /* Keep gradient for primary */
     color: #ffffff;
-    padding: 0.75rem 1.5rem;
-    border-radius: 9999px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 0.875rem 2rem; /* Slightly larger padding */
+    border-radius: 0.375rem; /* Standard border radius */
+    font-weight: 600;
+    box-shadow: 0 4px 6px rgba(59, 130, 246, 0.2); /* Subtle blue shadow */
     transition: all 0.3s ease;
-    font-weight: 600; /* Added font weight */
-    text-align: center; /* Ensure text centers */
+    display: inline-flex; /* Ensure alignment and consistent behavior */
+    align-items: center;
+    justify-content: center;
 }
 .cta-button:hover {
-    background-image: linear-gradient(to right, #2563eb, #6d28d9);
+    background-image: linear-gradient(to right, #2563eb, #7c3aed); /* Slightly darker gradient */
     transform: translateY(-2px);
-    box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.15); /* Enhanced shadow */
+    box-shadow: 0 6px 10px rgba(59, 130, 246, 0.3);
 }
 
-/* Secondary CTA button specific for Agents */
-.agent-cta-button {
-    background-image: linear-gradient(to right, #10b981, #06b6d4); /* Teal/Cyan Gradient */
-    color: #ffffff;
-    padding: 0.75rem 1.5rem;
-    border-radius: 9999px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+/* Secondary Button - Outline Style */
+.secondary-cta-button {
+    background-color: transparent;
+    color: #3b82f6; /* Blue text */
+    padding: calc(0.875rem - 1px) calc(2rem - 1px); /* Adjust padding for border */
+    border-radius: 0.375rem;
+    font-weight: 600;
+    border: 1px solid #3b82f6; /* Blue border */
     transition: all 0.3s ease;
-    font-weight: 600; /* Added font weight */
-    text-align: center; /* Ensure text centers */
+     display: inline-flex; /* Ensure alignment */
+    align-items: center;
+    justify-content: center;
 }
-.agent-cta-button:hover {
-    background-image: linear-gradient(to right, #059669, #0891b2);
+.secondary-cta-button:hover {
+    background-color: #eff6ff; /* Very light blue background */
+    color: #2563eb; /* Darker blue text */
+    border-color: #2563eb;
     transform: translateY(-2px);
-    box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.15); /* Enhanced shadow */
 }
+
 
 /* Service card styles */
 .service-card {
-    background-color: #1e293b;
-    border-radius: 0.75rem;
-    padding: 1.5rem;
-    box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.1);
-    border: 1px solid #4b5563;
+    background-color: #ffffff; /* White background */
+    border-radius: 0.5rem; /* Slightly larger radius */
+    padding: 2rem; /* More padding */
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03); /* Soft shadow */
+    border: 1px solid #e5e7eb; /* Light border */
     transition: all 0.3s ease;
     display: flex;
     flex-direction: column;
 }
 .service-card:hover {
-    transform: translateY(-4px) scale(1.02);
-    border-color: #6b7280;
+    transform: translateY(-5px) scale(1.03); /* Slightly more lift */
+    border-color: #93c5fd; /* Light blue border */
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.07), 0 4px 6px -2px rgba(0, 0, 0, 0.05); /* More prominent shadow */
 }
 .service-icon {
-    width: 3.5rem; /* Slightly smaller icons */
+    width: 3.5rem; /* Adjust size */
     height: 3.5rem;
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem; /* More space */
+    /* Colors defined in HTML using text-blue-500 etc. */
 }
-.service-card-title { /* Added specific class for title */
-    font-size: 1.125rem; /* text-lg */
-    font-weight: 600; /* font-semibold */
-    margin-bottom: 0.5rem; /* mb-2 */
-    color: #ffffff; /* text-white */
+.service-card h3 { /* Title styling */
+    color: #111827;
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 0.75rem; /* Space below title */
 }
-.service-card-description { /* Added specific class for description */
-    color: #9ca3af; /* text-gray-400 */
-    margin-bottom: 1rem; /* mb-4 */
-    flex-grow: 1; /* Allow description to take space */
+.service-card p { /* Description styling */
+    color: #4b5563;
+    flex-grow: 1; /* Make text take available space before link */
+    margin-bottom: 1.5rem;
+    line-height: 1.6; /* Improve readability */
 }
-.service-card-link { /* Added specific class for link */
-    color: #60a5fa; /* text-blue-400 equivalent */
+.learn-more-link {
+    color: #3b82f6; /* Blue */
     transition: color 0.3s ease;
-    margin-top: auto; /* Pushes link to bottom */
+    margin-top: auto;
     display: inline-flex;
     align-items: center;
-    font-weight: 500; /* Medium weight */
+    font-weight: 500;
 }
-.service-card-link:hover {
-    color: #8b5cf6; /* text-purple-400 equivalent */
+.learn-more-link:hover {
+    color: #1d4ed8; /* Darker blue */
 }
-
-/* How It Works styles */
-.step-number {
-    background-image: linear-gradient(to right, #3b82f6, #8b5cf6); /* Use primary gradient */
-    border-radius: 9999px; /* full */
-    width: 3rem; /* w-12 */
-    height: 3rem; /* h-12 */
-    display: inline-flex; /* flex */
-    align-items: center; /* items-center */
-    justify-content: center; /* justify-center */
-    font-size: 1.25rem; /* text-xl */
-    font-weight: 700; /* font-bold */
-    color: #ffffff; /* text-white */
-    margin-bottom: 1rem; /* mb-4 */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* shadow-lg */
+.learn-more-link svg {
+    transition: transform 0.3s ease;
+}
+.learn-more-link:hover svg {
+    transform: translateX(3px);
 }
 
 
-/* Testimonial card styles */
-.testimonial-card {
-    background-color: #1e293b; /* bg-gray-800 */
-    border-radius: 0.75rem; /* rounded-lg */
-    padding: 1.5rem; /* p-6 */
-    border: 1px solid #4b5563; /* border-gray-700 */
-    display: flex;
-    flex-direction: column;
-    height: 100%; /* Ensure cards in a row have same height */
-}
-.testimonial-quote {
-    color: #d1d5db; /* text-gray-300 */
-    margin-bottom: 1rem; /* mb-4 */
-    font-style: italic;
-    flex-grow: 1;
-}
-.testimonial-author {
-    font-weight: 600; /* font-semibold */
-    color: #ffffff; /* text-white */
-    margin-top: auto;
-}
-.testimonial-author-role {
-    font-size: 0.875rem; /* text-sm */
-    color: #9ca3af; /* text-gray-400 */
-}
-
-
-/* Resource link styles (Kept for potential future use, not in current HTML) */
-.resource-link {
-    color: #d1d5db;
-    transition: color 0.3s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0.75rem;
-    border-radius: 0.375rem;
-    border: 1px solid #4b5563;
+/* "How it Works" Styles */
+.how-it-works-step {
+    background-color: #ffffff;
+    padding: 2rem; /* Increased padding */
+    border-radius: 0.5rem;
+    border: 1px solid #e5e7eb;
     text-align: center;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+    transition: all 0.3s ease; /* Add hover transition */
 }
-.resource-link:hover {
-    background-color: #374151;
-    color: #ffffff;
+.how-it-works-step:hover {
+     transform: translateY(-3px);
+     box-shadow: 0 6px 12px rgba(0,0,0,0.05);
+}
+.how-it-works-step .step-number {
+     background: linear-gradient(to right, #60a5fa, #8b5cf6);
+     color: white;
+     border-radius: 9999px;
+     width: 3rem;
+     height: 3rem;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     font-size: 1.25rem;
+     font-weight: 700;
+     margin-bottom: 1.25rem; /* More space */
+     margin-left: auto;
+     margin-right: auto;
+     box-shadow: 0 4px 6px rgba(59, 130, 246, 0.15);
+}
+.how-it-works-step h3 {
+     color: #111827;
+     font-size: 1.125rem;
+     font-weight: 600; /* Bolder title */
+     margin-bottom: 0.75rem;
+}
+.how-it-works-step p {
+    color: #4b5563;
+    font-size: 0.95rem;
+    line-height: 1.6;
 }
 
-/* Partner logo styles (Kept for potential future use, used for 'Featured Agents') */
-.partner-logo {
-    height: 4rem;
+/* About Us Section Image */
+.about-us-image {
+    border-radius: 0.75rem;
+    object-fit: cover;
+    aspect-ratio: 4 / 3;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+}
+
+
+/* Client logo styles */
+.client-logo {
+    height: 3.5rem;
     width: auto;
-    max-width: 150px;
+    max-width: 140px;
     opacity: 0.7;
-    transition: opacity 0.3s ease;
-    filter: grayscale(50%) brightness(1.5);
+    transition: opacity 0.3s ease, filter 0.3s ease; /* Added filter transition */
+    filter: grayscale(80%);
 }
-.partner-logo:hover {
+.client-logo:hover {
     opacity: 1;
-    filter: grayscale(0%) brightness(1);
+    filter: grayscale(0%);
 }
 
-/* Hover background color */
-.hover-bg-gray-800:hover {
-    background-color: #374151;
+
+/* Footer */
+footer.footer {
+    background-color: #e5e7eb; /* Lightest gray */
+    border-top: 1px solid #d1d5db;
+    color: #4b5563; /* Medium gray text */
+    padding-top: 2rem;
+    padding-bottom: 2rem;
 }
 
-/* Styles for the Form Radio Button Choice */
-.user-type-choice label {
-    display: block;
-    padding: 0.75rem 1.25rem;
-    border: 1px solid #4b5563; /* border-gray-600 */
-    border-radius: 0.5rem; /* rounded-md */
-    cursor: pointer;
-    transition: all 0.2s ease-in-out;
-    background-color: #374151; /* bg-gray-700 */
-    text-align: center;
+/* Mobile Menu Specifics */
+/* Ensure mobile menu background doesn't clash */
+#mobile-menu {
+     background-color: rgba(248, 250, 252, 0.9); /* Light background with opacity */
+     backdrop-filter: blur(5px); /* Optional blur effect */
 }
-.user-type-choice input[type="radio"] {
-    display: none; /* Hide the actual radio button */
+#mobile-menu > div { /* The inner container */
+    background-color: #ffffff; /* Solid white */
 }
-.user-type-choice input[type="radio"]:checked + label {
-    background-color: #3b82f6; /* bg-blue-600 */
-    border-color: #2563eb; /* border-blue-700 */
-    color: #ffffff;
-    font-weight: 600;
+#mobile-menu .nav-link { /* Ensure mobile links are styled correctly */
+     color: #374151; /* Darker text for mobile menu */
 }
-.user-type-choice label:hover {
-    border-color: #6b7280; /* border-gray-500 */
-    background-color: #4b5563; /* bg-gray-600 */
-}
-.user-type-choice input[type="radio"]:checked + label:hover {
-     background-color: #2563eb; /* Slightly darker blue on hover when checked */
-}
-
-/* Styles for conditionally shown form fields */
-.form-field-agent {
-    display: none; /* Hidden by default */
-}
-.form-field-buyer {
-    display: none; /* Hidden by default */
+#mobile-menu .nav-link:hover {
+    color: #1e3a8a; /* Brand blue on hover */
 }
