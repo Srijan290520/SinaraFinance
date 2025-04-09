@@ -1,105 +1,127 @@
-document.getElementById('inquiry-form').addEventListener('submit', function(event) {
-    event.preventDefault(); // Prevent the default form submission
+// Wait for the HTML document to be fully loaded before running the script
+document.addEventListener('DOMContentLoaded', function() {
 
-    const submitButton = event.target.querySelector('input[type="submit"]');
-    const originalButtonText = submitButton.value;
-    submitButton.value = 'Submitting...'; // Provide feedback
-    submitButton.disabled = true; // Prevent double submission
+    const form = document.getElementById('inquiry-form');
+    const submitButton = form ? form.querySelector('input[type="submit"]') : null; // Get button relative to form
+    const popup = document.getElementById('thank-you-popup');
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbzZlr3zoF6Svqic9JXF5Rb0blRK4aiKbnKkdnq6Hz4GncdP707QV6Xb4ceKVwKLRX5D/exec'; // <-- Replace with YOUR actual script URL
 
-    // --- Collect ALL form data ---
-    const userTypeElement = document.querySelector('input[name="user_type"]:checked');
-    const user_type = userTypeElement ? userTypeElement.value : ''; // Get selected radio value
-    const full_name = document.getElementById('full_name').value;
-    const email = document.getElementById('email').value;
-    const phone = document.getElementById('phone').value; // Assuming ID is 'phone'
-    const interestElement = document.querySelector('input[name="interest"]:checked');
-    const interest = interestElement ? interestElement.value : ''; // Get selected radio value
-    const location = document.getElementById('location').value; // Assuming ID is 'location'
-    const buyer_details = document.getElementById('buyer_details').value; // Assuming ID is 'buyer_details'
-    const seller_details = document.getElementById('seller_details').value; // Assuming ID is 'seller_details'
+    // Check if the form element actually exists before adding listener
+    if (form && submitButton) {
+        const originalButtonText = submitButton.value; // Store original button text
 
-    // --- Construct the data payload ---
-    // Send ALL fields, let the Apps Script decide what to use based on user_type/interest
-    const formData = {
-        user_type: user_type,
-        full_name: full_name,
-        email: email,
-        phone: phone,
-        interest: interest,
-        location: location,
-        buyer_details: buyer_details,
-        seller_details: seller_details // Include seller details too
-    };
+        form.addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent the default form submission
 
-    console.log("Form JS: Attempting to send JSON data:", JSON.stringify(formData)); // Log the actual data being sent
+            // Provide immediate feedback
+            submitButton.value = 'Submitting...';
+            submitButton.disabled = true;
 
-    const scriptURL = 'https://script.google.com/macros/s/AKfycbzPlFO-EFrv5MLMlCeEMhwM6w5IOXY63p1iqedVwVHVuCFlzMAYxPNGn25f6wC_beUQ/exec'; // Your script URL
+            // --- Collect ALL form data ---
+            // Use querySelector for radio buttons to get the checked value reliably
+            const userTypeElement = form.querySelector('input[name="user_type"]:checked');
+            const interestElement = form.querySelector('input[name="interest"]:checked');
 
-    fetch(scriptURL, {
-        method: 'POST',
-        mode: 'no-cors', // <---- MAKE SURE THIS IS HERE!
-        cache: 'no-cache',
-        headers: {
-            // Content-Type header is often NOT needed or can even cause issues with 'no-cors'
-            // 'Content-Type': 'application/json' // Try removing this first if 'no-cors' alone doesn't work
-        },
-        body: JSON.stringify(formData)
-    })
-    .then(response => {
-        // IMPORTANT: With mode: 'no-cors', the response object here is "opaque".
-        // You CANNOT check response.ok, response.status, or read response.body.
-        // You just assume success if the request didn't throw a network error.
-        console.log('Form JS: Fetch request sent successfully (mode: no-cors).');
+            // Get values, providing empty string fallback if element not found or not checked
+            const user_type = userTypeElement ? userTypeElement.value : '';
+            const full_name = document.getElementById('full_name')?.value || ''; // Use optional chaining ?.
+            const email = document.getElementById('email')?.value || '';
+            const phone = document.getElementById('phone')?.value || '';
+            const interest = interestElement ? interestElement.value : '';
+            const location = document.getElementById('location')?.value || '';
+            const buyer_details = document.getElementById('buyer_details')?.value || '';
+            const seller_details = document.getElementById('seller_details')?.value || '';
 
-        const popup = document.getElementById('thank-you-popup');
-        if (popup) {
-            popup.classList.remove('hidden');
+
+            // --- Construct the data payload ---
+            const formData = {
+                user_type: user_type,
+                full_name: full_name,
+                email: email,
+                phone: phone,
+                interest: interest,
+                location: location,
+                buyer_details: buyer_details,
+                seller_details: seller_details
+            };
+
+            console.log("Form JS: Attempting to send JSON data:", JSON.stringify(formData)); // Log the data being sent
+
+            // --- Send data using fetch with no-cors ---
+            fetch(scriptURL, {
+                method: 'POST',
+                mode: 'no-cors', // Essential for simple Google Apps Script submissions from different origins
+                cache: 'no-cache',
+                // headers: { // Content-Type often not needed or causes issues with 'no-cors'
+                //   'Content-Type': 'application/json'
+                // },
+                body: JSON.stringify(formData)
+            })
+            .then(response => {
+                // In 'no-cors' mode, you CANNOT read response.status or response.body.
+                // You only know the request was *sent* without a network-level error.
+                // Assume success if no error is caught.
+                console.log('Form JS: Fetch request sent successfully (mode: no-cors).');
+
+                if (popup) {
+                    popup.classList.remove('hidden'); // Show the thank you popup
+                }
+                form.reset(); // Reset the form fields
+
+                // Redirect after a delay
+                setTimeout(() => {
+                    window.location.href = 'index.html'; // Redirect back to the homepage
+                }, 5000); // 5 seconds delay
+
+            })
+            .catch(error => {
+                // This catch block handles NETWORK errors (e.g., offline, DNS failure, script URL wrong)
+                console.error('Form JS: Fetch Error encountered:', error);
+                alert('Submission Network Error: ' + error.message + '. Please check your internet connection or the script URL.');
+                // Restore button state ONLY on error
+                submitButton.value = originalButtonText;
+                submitButton.disabled = false;
+            })
+            .finally(() => {
+                 // Code here runs whether fetch succeeded or failed network-wise.
+                 // Button state is handled in .then() for success (stays disabled until redirect)
+                 // and in .catch() for error (re-enabled).
+                 console.log("Form JS: Form submission attempt finished.");
+            });
+        });
+
+    } else {
+        console.error("Form JS Error: Could not find the form (#inquiry-form) or the submit button.");
+        if (!form) console.error("Reason: #inquiry-form not found in the HTML.");
+        if (form && !submitButton) console.error("Reason: Submit button (input[type='submit']) not found inside the form.");
+    }
+
+
+    // --- Logic to show/hide buyer/seller details based on radio button selection ---
+    const buyerDetailsDiv = document.getElementById('buyer_details_div');
+    const sellerDetailsDiv = document.getElementById('seller_details_div');
+    const userTypeRadios = document.querySelectorAll('input[name="user_type"]');
+
+    function toggleDetailsVisibility() {
+        const selectedType = document.querySelector('input[name="user_type"]:checked');
+        if (!selectedType) return; // Do nothing if no radio is selected initially
+
+        const showBuyer = (selectedType.value === 'buyer' || selectedType.value === 'buyer_seller');
+        const showSeller = (selectedType.value === 'seller' || selectedType.value === 'buyer_seller');
+
+        if (buyerDetailsDiv) {
+            buyerDetailsDiv.style.display = showBuyer ? 'block' : 'none';
         }
-        document.getElementById('inquiry-form').reset(); // Reset the form
-
-        // Redirect after a delay
-        setTimeout(() => {
-            window.location.href = 'index.html'; // Redirect back
-        }, 5000);
-    })
-    .catch(error => {
-        // This catch block handles NETWORK errors (e.g., offline, DNS issues),
-        // NOT errors reported back from the Apps Script itself.
-        console.error('Form JS: Fetch Error encountered:', error);
-        alert('Submission Network Error: ' + error.message + '. Please check your internet connection or try again later.');
-        // Restore button state on error
-        if (submitButton) {
-            submitButton.value = originalButtonText;
-            submitButton.disabled = false;
+         if (sellerDetailsDiv) {
+            sellerDetailsDiv.style.display = showSeller ? 'block' : 'none';
         }
-    })
-    .finally(() => {
-        console.log("Form JS: Form submission process finished.");
-        // Ensure button is re-enabled *unless* successful submission started redirect timer
-        // This logic might need adjustment based on when you want it re-enabled after success popup
-         if (submitButton && document.getElementById('thank-you-popup')?.classList.contains('hidden')) { // Only re-enable if popup not shown
-             submitButton.value = originalButtonText;
-             submitButton.disabled = false;
-         }
+    }
+
+    userTypeRadios.forEach(radio => {
+        radio.addEventListener('change', toggleDetailsVisibility);
     });
-});
 
-// Add logic to show/hide buyer/seller details based on radio button selection
-document.querySelectorAll('input[name="user_type"]').forEach(radio => {
-    radio.addEventListener('change', function() {
-        const buyerDetailsDiv = document.getElementById('buyer_details_div');
-        const sellerDetailsDiv = document.getElementById('seller_details_div');
-        if (this.value === 'buyer' || this.value === 'buyer_seller') {
-            buyerDetailsDiv.style.display = 'block';
-        } else {
-            buyerDetailsDiv.style.display = 'none';
-        }
-        if (this.value === 'seller' || this.value === 'buyer_seller') {
-            sellerDetailsDiv.style.display = 'block';
-        } else {
-            sellerDetailsDiv.style.display = 'none';
-        }
-    });
-});
-// Initial check on page load in case a radio is pre-selected
-document.querySelector('input[name="user_type"]:checked')?.dispatchEvent(new Event('change'));  
+    // Initial check on page load in case a radio is pre-selected or for default state
+    toggleDetailsVisibility();
+
+}); // End of DOMContentLoaded listener
