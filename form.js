@@ -1,132 +1,139 @@
-// Wait for the HTML document to be fully loaded before running the script
 document.addEventListener('DOMContentLoaded', function() {
 
     const form = document.getElementById('inquiry-form');
-    const submitButton = form ? form.querySelector('input[type="submit"]') : null; // Get button relative to form
+    const submitButtonContainer = document.getElementById('submit_button_container');
+    const submitButton = submitButtonContainer ? submitButtonContainer.querySelector('input[type="submit"]') : null;
     const popup = document.getElementById('thank-you-popup');
-    const scriptURL = 'https://script.google.com/macros/s/AKfycbyOf12o5Gf2fjcqW-8uov7n4ycNIlBcP--nGeg50_PtG1NldGNvEHrtrTLFF0besLIU/exec'; // <-- Replace with YOUR actual script URL
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbwyMuAMRe-S7kBG8wGZl1CyLqIntB57fRJdHkqqDHpfQrayhG0Y2SC8V3sYquM8OzHe/exec'; // <-- YOUR SCRIPT URL
 
-    // Check if the form element actually exists before adding listener
-    if (form && submitButton) {
-        const originalButtonText = submitButton.value; // Store original button text
+    // Get references to the conditional field containers
+    const commonFieldsDiv = document.getElementById('common_fields');
+    const agentFieldsDiv = document.getElementById('agent_fields_container');
+    const customerFieldsDiv = document.getElementById('customer_fields_container');
+    const userRoleRadios = form ? form.querySelectorAll('input[name="user_primary_role"]') : [];
 
+    // --- Function to show/hide sections based on User Role ---
+    function toggleVisibleSections() {
+        const selectedRole = form.querySelector('input[name="user_primary_role"]:checked');
+
+        // Hide all conditional sections initially
+        commonFieldsDiv?.classList.add('hidden');
+        agentFieldsDiv?.classList.add('hidden');
+        customerFieldsDiv?.classList.add('hidden');
+        submitButtonContainer?.classList.add('hidden');
+        // Remove required attributes from all potentially conditional fields
+        form.querySelector('#full_name')?.removeAttribute('required');
+        form.querySelector('#email')?.removeAttribute('required');
+        form.querySelector('input[name="agent_lead_interest"]')?.removeAttribute('required');
+        form.querySelector('#agent_service_area')?.removeAttribute('required');
+        form.querySelector('input[name="customer_action"]')?.removeAttribute('required');
+        form.querySelector('#customer_location')?.removeAttribute('required');
+        form.querySelector('#customer_details')?.removeAttribute('required');
+
+
+        if (!selectedRole) return; // Exit if no role selected yet
+
+        // Show common fields and submit button once a role is selected
+        commonFieldsDiv?.classList.remove('hidden');
+        submitButtonContainer?.classList.remove('hidden');
+        // Make common fields required
+        form.querySelector('#full_name')?.setAttribute('required', 'required');
+        form.querySelector('#email')?.setAttribute('required', 'required');
+
+
+        // Show role-specific fields and set their required attributes
+        if (selectedRole.value === 'agent') {
+            agentFieldsDiv?.classList.remove('hidden');
+            // Add required attributes for agent fields as needed
+            form.querySelector('input[name="agent_lead_interest"]')?.setAttribute('required', 'required'); // Example: Make interest required for agent
+            form.querySelector('#agent_service_area')?.setAttribute('required', 'required'); // Example: Make service area required for agent
+
+        } else if (selectedRole.value === 'customer') {
+            customerFieldsDiv?.classList.remove('hidden');
+            // Add required attributes for customer fields as needed
+            form.querySelector('input[name="customer_action"]')?.setAttribute('required', 'required'); // Example: Make action required
+            form.querySelector('#customer_location')?.setAttribute('required', 'required'); // Example: Make location required
+            form.querySelector('#customer_details')?.setAttribute('required', 'required'); // Example: Make details required
+        }
+    }
+
+    // --- Add Event Listeners ---
+    if (form && submitButton && commonFieldsDiv && agentFieldsDiv && customerFieldsDiv && submitButtonContainer) {
+        const originalButtonText = submitButton.value;
+
+        // Listener for User Role change
+        userRoleRadios.forEach(radio => {
+            radio.addEventListener('change', toggleVisibleSections);
+        });
+
+        // Initial check on page load (sections will be hidden)
+        toggleVisibleSections();
+
+        // Form Submit Listener
         form.addEventListener('submit', function(event) {
-            event.preventDefault(); // Prevent the default form submission
-
-            // Provide immediate feedback
+            event.preventDefault();
             submitButton.value = 'Submitting...';
             submitButton.disabled = true;
 
-            // --- Collect ALL form data ---
-            // Use querySelector for radio buttons to get the checked value reliably
-            const userTypeElement = form.querySelector('input[name="user_type"]:checked');
-            const interestElement = form.querySelector('input[name="interest"]:checked');
+            // --- Collect Data from ALL potential fields ---
+            const userRoleElement = form.querySelector('input[name="user_primary_role"]:checked');
+            const agentInterestElement = form.querySelector('input[name="agent_lead_interest"]:checked');
+            const customerActionElement = form.querySelector('input[name="customer_action"]:checked');
 
-            // Get values, providing empty string fallback if element not found or not checked
-            const user_type = userTypeElement ? userTypeElement.value : '';
-            const full_name = document.getElementById('full_name')?.value || ''; // Use optional chaining ?.
-            const email = document.getElementById('email')?.value || '';
-            const phone = document.getElementById('phone')?.value || '';
-            const interest = interestElement ? interestElement.value : '';
-            const location = document.getElementById('location')?.value || '';
-            const buyer_details = document.getElementById('buyer_details')?.value || '';
-            const seller_details = document.getElementById('seller_details')?.value || '';
-
-
-            // --- Construct the data payload ---
             const formData = {
-                user_type: user_type,
-                full_name: full_name,
-                email: email,
-                phone: phone,
-                interest: interest,
-                location: location,
-                buyer_details: buyer_details,
-                seller_details: seller_details
+                // Common
+                user_primary_role: userRoleElement ? userRoleElement.value : '',
+                full_name: document.getElementById('full_name')?.value || '',
+                email: document.getElementById('email')?.value || '',
+                phone: document.getElementById('phone')?.value || '',
+
+                // Agent specific
+                agent_lead_interest: agentInterestElement ? agentInterestElement.value : '',
+                agent_service_area: document.getElementById('agent_service_area')?.value || '',
+                agent_lead_criteria: document.getElementById('agent_lead_criteria')?.value || '',
+
+                // Customer specific
+                customer_action: customerActionElement ? customerActionElement.value : '',
+                customer_location: document.getElementById('customer_location')?.value || '',
+                customer_details: document.getElementById('customer_details')?.value || '',
             };
 
-            console.log("Form JS: Attempting to send JSON data:", JSON.stringify(formData)); // Log the data being sent
+            console.log("Form JS: Attempting to send JSON data:", JSON.stringify(formData));
 
-            // --- Send data using fetch with no-cors ---
+            // --- Fetch (NO CHANGES HERE - uses no-cors) ---
             fetch(scriptURL, {
                 method: 'POST',
-                mode: 'no-cors', // Essential for simple Google Apps Script submissions from different origins
+                mode: 'no-cors',
                 cache: 'no-cache',
-                // headers: { // Content-Type often not needed or causes issues with 'no-cors'
-                //   'Content-Type': 'application/json'
-                // },
                 body: JSON.stringify(formData)
             })
             .then(response => {
-                // In 'no-cors' mode, you CANNOT read response.status or response.body.
-                // You only know the request was *sent* without a network-level error.
-                // Assume success if no error is caught.
                 console.log('Form JS: Fetch request sent successfully (mode: no-cors).');
+                if (popup) popup.classList.remove('hidden');
+                form.reset();
+                // Hide conditional sections again after reset
+                toggleVisibleSections();
 
-                if (popup) {
-                    popup.classList.remove('hidden'); // Show the thank you popup
-                }
-                form.reset(); // Reset the form fields
-
-                // Redirect after a delay
-                setTimeout(() => {
-                    window.location.href = 'index.html'; // Redirect back to the homepage
-                }, 5000); // 5 seconds delay
-
+                setTimeout(() => { window.location.href = 'index.html'; }, 5000);
             })
             .catch(error => {
-                // This catch block handles NETWORK errors (e.g., offline, DNS failure, script URL wrong)
                 console.error('Form JS: Fetch Error encountered:', error);
-                alert('Submission Network Error: ' + error.message + '. Please check your internet connection or the script URL.');
+                alert('Submission Network Error: ' + error.message);
                 // Restore button state ONLY on error
                 submitButton.value = originalButtonText;
                 submitButton.disabled = false;
             })
             .finally(() => {
-                 // Code here runs whether fetch succeeded or failed network-wise.
-                 // Button state is handled in .then() for success (stays disabled until redirect)
-                 // and in .catch() for error (re-enabled).
                  console.log("Form JS: Form submission attempt finished.");
+                  // Re-enable button if not successful (handled in catch)
+                 if(!popup || popup.classList.contains('hidden')) { // Check if popup ISN'T shown
+                    submitButton.value = originalButtonText;
+                    submitButton.disabled = false;
+                 }
             });
         });
 
     } else {
-        console.error("Form JS Error: Could not find the form (#inquiry-form) or the submit button.");
-        if (!form) console.error("Reason: #inquiry-form not found in the HTML.");
-        if (form && !submitButton) console.error("Reason: Submit button (input[type='submit']) not found inside the form.");
+        console.error("Form JS Error: Could not find all required form elements (form, buttons, containers). Check HTML IDs.");
     }
-
-
-    // --- Logic to show/hide buyer/seller details based on radio button selection ---
-    // Note: This part was missing in the previous JS, adding it back
-    const buyerDetailsDiv = document.getElementById('buyer_details_div');
-    const sellerDetailsDiv = document.getElementById('seller_details_div');
-    const interestRadios = document.querySelectorAll('input[name="interest"]'); // Changed to listen on interest radios
-
-    function toggleDetailsVisibility() {
-        const selectedInterest = document.querySelector('input[name="interest"]:checked');
-        if (!selectedInterest) { // Handle case where nothing is selected initially
-             if(buyerDetailsDiv) buyerDetailsDiv.style.display = 'none';
-             if(sellerDetailsDiv) sellerDetailsDiv.style.display = 'none';
-            return;
-        };
-
-        const showBuyer = (selectedInterest.value === 'buyer' || selectedInterest.value === 'buyer_seller');
-        const showSeller = (selectedInterest.value === 'seller' || selectedInterest.value === 'buyer_seller');
-
-        if (buyerDetailsDiv) {
-            buyerDetailsDiv.style.display = showBuyer ? 'block' : 'none';
-        }
-         if (sellerDetailsDiv) {
-            sellerDetailsDiv.style.display = showSeller ? 'block' : 'none';
-        }
-    }
-
-    interestRadios.forEach(radio => {
-        radio.addEventListener('change', toggleDetailsVisibility);
-    });
-
-    // Initial check on page load in case a radio is pre-selected or for default state
-    toggleDetailsVisibility();
-
-}); // End of DOMContentLoaded listener
+}); // End DOMContentLoaded
